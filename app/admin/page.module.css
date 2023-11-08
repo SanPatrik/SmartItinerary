@@ -1,0 +1,44 @@
+.file-input-label {
+    position: relative;
+    overflow: hidden;
+    display: inline-block;
+}
+
+.file-input {
+    position: absolute;
+    font-size: 100px;
+    opacity: 0;
+    right: 0;
+    top: 0;
+}
+
+label.label input[type="file"] {
+    margin: 0 2rem 0 0; /* Equivalent to margin-right: 2rem */
+    padding: 1rem; /* Equivalent to padding: 1rem */
+    borderRadius: '0.25rem' /* Equivalent to border-radius: 0.25rem */
+}
+.label {
+    margin-right: 1.5rem;
+    cursor: pointer;
+    border: 1px solid #cccccc;
+    border-radius: 5px;
+    background: white;
+    display: inline-block;
+}
+
+.label:active {
+    background: #9fa1a0;
+}
+
+/* Use box-shadow to create the outer white and inner black border */
+.label:not(:active):hover {
+    box-shadow: 0 0 0 2px black, 0 0 0 4px white;
+}
+
+.label:invalid + span {
+    color: #000000;
+}
+
+.label:valid + span {
+    color: #ffffff;
+}
