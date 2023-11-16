@@ -10,6 +10,8 @@ import { OpenAIEmbeddings } from "langchain/embeddings/openai";
 import { createRetrieverTool, OpenAIAgentTokenBufferMemory } from "langchain/agents/toolkits";
 import { ChatMessageHistory } from "langchain/memory";
 import { initializeAgentExecutorWithOptions } from "langchain/agents";
+import {z} from "zod";
+import {zodToJsonSchema} from "zod-to-json-schema";
 
 export const runtime = "edge";
 
@@ -23,9 +25,47 @@ const convertVercelMessageToLangChainMessage = (message: VercelChatMessage) => {
     }
 };
 
-const TEMPLATE = `You are a stereotypical robot named Robbie and must answer all questions like a stereotypical robot. Use lots of interjections like "BEEP" and "BOOP".
+const DaySchema = z.object({
+    day_number: z.number(),
+    description: z.string(),
+    activities: z.array(z.string()),
+    locations: z.object({
+        hotels: z.array(z.string()),
+        activities: z.array(z.string()),
+        shops: z.array(z.string()),
+        restaurants: z.array(z.string()),
+        cafe: z.array(z.string()),
+    }),
+});
 
-If you don't know how to answer a question, use the available tools to look up relevant information. You should particularly do this for questions about LangChain.`;
+const ItinerarySchema = z.object({
+    introduction: z.string(),
+    days: z.array(DaySchema),
+});
+
+// const TEMPLATE = `You are a stereotypical robot named Robbie and must answer all questions like a stereotypical robot. Use lots of interjections like "BEEP" and "BOOP".
+//
+// If you don't know how to answer a question, use the available tools to look up relevant information. You should particularly do this for questions about LangChain.`;
+
+const TEMPLATE = `
+Extract the requested fields from the inputs.
+
+The field "location" refers to the place.
+The field "preferencies" refers to the preferencies from user on what he wants to do on the trip.
+
+Generate itinerary, trip to this place: {location}
+
+With these optional preferencies: {preferencies}
+
+if preferencies == empty then create average from available data
+
+also write down:
+hotels they can book in and match it to the program and days,
+shops they can visit,
+where they can dine in, 
+where they can make cafe stops, 
+and sightseeing, tours they can visit also planned according to days and hotels
+`;
 
 /**
  * This handler initializes and calls a retrieval agent. It requires an OpenAI
@@ -48,7 +88,18 @@ export async function POST(req: NextRequest) {
         const currentMessageContent = messages[messages.length - 1].content;
 
         const model = new ChatOpenAI({
-            modelName: "gpt-4",
+            modelName: "gpt-3.5-turbo",
+        });
+
+        const functionCallingModel = model.bind({
+            functions: [
+                {
+                    name: "output_formatter",
+                    description: "Should always be used to properly format output",
+                    parameters: zodToJsonSchema(ItinerarySchema),
+                },
+            ],
+            function_call: { name: "output_formatter" },
         });
 
         const client = createClient(process.env.SUPABASE_URL!, process.env.SUPABASE_PRIVATE_KEY!);
@@ -97,6 +148,7 @@ export async function POST(req: NextRequest) {
             agentArgs: {
                 prefix: TEMPLATE,
             },
+
         });
 
         const result = await executor.call({

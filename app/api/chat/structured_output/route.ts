@@ -9,13 +9,25 @@ import { JsonOutputFunctionsParser } from "langchain/output_parsers";
 
 export const runtime = "edge";
 
-const TEMPLATE = `Extract the requested fields from the input.
+const TEMPLATE = `
+Extract the requested fields from the inputs.
 
-The field "entity" refers to the first mentioned entity in the input.
+The field "location" refers to the place.
+The field "preferencies" refers to the preferencies from user on what he wants to do on the trip.
 
-Input:
+Generate itinerary, trip to this place: {location}
 
-{input}`;
+With these optional preferencies: {preferencies}
+
+if preferencies == empty then create average from available data
+
+also write down:
+hotels they can book in and match it to the program and days,
+shops they can visit,
+where they can dine in, 
+where they can make cafe stops, 
+and sightseeing, tours they can visit also planned according to days and hotels
+`;
 
 /**
  * This handler initializes and calls an OpenAI Functions powered
@@ -26,31 +38,46 @@ Input:
 export async function POST(req: NextRequest) {
     try {
         const body = await req.json();
+        // const locationReq = body.location ?? [];
+        // const preferenciesReq = body.preferencies ?? [];
+        // const location = locationReq[locationReq.length - 1].content;
+        // const preferencies = preferenciesReq[preferenciesReq.length - 1].content;
         const messages = body.messages ?? [];
         const currentMessageContent = messages[messages.length - 1].content;
-
         const prompt = PromptTemplate.fromTemplate(TEMPLATE);
+
+
         /**
          * Function calling is currently only supported with ChatOpenAI models
          */
         const model = new ChatOpenAI({
             temperature: 0.8,
-            modelName: "gpt-4",
+            modelName: "gpt-3.5-turbo",
         });
 
         /**
          * We use Zod (https://zod.dev) to define our schema for convenience,
          * but you can pass JSON Schema directly if desired.
          */
-        const schema = z.object({
-            tone: z.enum(["positive", "negative", "neutral"]).describe("The overall tone of the input"),
-            entity: z.string().describe("The entity mentioned in the input"),
-            word_count: z.number().describe("The number of words in the input"),
-            chat_response: z.string().describe("A response to the human's input"),
-            final_punctuation: z.optional(z.string()).describe("The final punctuation mark in the input, if any."),
+        const DaySchema = z.object({
+            day_number: z.number(),
+            description: z.string(),
+            activities: z.array(z.string()),
+            locations: z.object({
+                hotels: z.array(z.string()),
+                activities: z.array(z.string()),
+                shops: z.array(z.string()),
+                restaurants: z.array(z.string()),
+                cafe: z.array(z.string()),
+            }),
         });
 
+        const ItinerarySchema = z.object({
+            introduction: z.string(),
+            days: z.array(DaySchema),
+        });
         /**
+         *
          * Bind the function and schema to the OpenAI model.
          * Future invocations of the returned model will always use these arguments.
          *
@@ -62,7 +89,7 @@ export async function POST(req: NextRequest) {
                 {
                     name: "output_formatter",
                     description: "Should always be used to properly format output",
-                    parameters: zodToJsonSchema(schema),
+                    parameters: zodToJsonSchema(ItinerarySchema),
                 },
             ],
             function_call: { name: "output_formatter" },
@@ -74,7 +101,8 @@ export async function POST(req: NextRequest) {
         const chain = prompt.pipe(functionCallingModel).pipe(new JsonOutputFunctionsParser());
 
         const result = await chain.invoke({
-            input: currentMessageContent,
+            location: currentMessageContent,
+            preferencies: ""
         });
 
         return NextResponse.json(result, { status: 200 });
