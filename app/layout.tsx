@@ -2,10 +2,15 @@ import "./globals.css";
 import { Public_Sans } from "next/font/google";
 
 import { Navbar } from "@/components/Navbar";
+import { getServerSession } from 'next-auth';
+import Logout from './logout'
+
 
 const publicSans = Public_Sans({ subsets: ["latin"] });
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default async function RootLayout({ children }: { children: React.ReactNode }) {
+    const session = await getServerSession();
+
     return (
         <html lang="en">
             <head>
@@ -34,6 +39,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                     <Navbar></Navbar>
                     {children}
                 </div>
+                {session && <Logout />}
             </body>
         </html>
     );

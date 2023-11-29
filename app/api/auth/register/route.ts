@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import { hash } from 'bcrypt'
-//import { sql } from '/@vercel/postgres';
+import { sql } from '@vercel/postgres';
 
 export async function POST(request: Request) {
     try {
@@ -9,10 +9,11 @@ export async function POST(request: Request) {
         console.log({ username, email, password });
 
         const hashedPassword = await hash(password, 10);
+        const role = "USER";
 
         //const response = await sql`
-        //INSERT INTO users (email, password, username)
-        //VALUES (${email}, ${hashedPassword}, ${username})
+        //INSERT INTO users (email, password, username, role)
+        //VALUES (${email}, ${hashedPassword}, ${username}, ${role})
         //`;
     } catch (e) {
         console.log({ e });
