@@ -4,7 +4,7 @@ import { Public_Sans } from "next/font/google";
 import { Navbar } from "@/components/Navbar";
 import { getServerSession } from 'next-auth';
 import Logout from './logout'
-
+import Link from 'next/link';
 
 const publicSans = Public_Sans({ subsets: ["latin"] });
 
@@ -40,6 +40,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
                     {children}
                 </div>
                 {session && <Logout />}
+                {!session && <Link href="/login">Login</Link>}
             </body>
         </html>
     );

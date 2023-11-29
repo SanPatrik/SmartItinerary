@@ -36,7 +36,7 @@ const handler = NextAuth({
                     return {
                         id: "1",
                         email: "email@email.com",
-                        image: "USER",
+                        image: "ADMIN",
                     };
                 }
 
