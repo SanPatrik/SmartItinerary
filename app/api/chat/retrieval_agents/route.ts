@@ -48,7 +48,7 @@ export async function POST(req: NextRequest) {
         const currentMessageContent = messages[messages.length - 1].content;
 
         const model = new ChatOpenAI({
-            modelName: "gpt-4",
+            modelName: "gpt-3.5-turbo",
         });
 
         const client = createClient(process.env.SUPABASE_URL!, process.env.SUPABASE_PRIVATE_KEY!);
