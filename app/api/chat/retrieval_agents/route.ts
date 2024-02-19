@@ -23,9 +23,38 @@ const convertVercelMessageToLangChainMessage = (message: VercelChatMessage) => {
     }
 };
 
-const TEMPLATE = `You are a stereotypical robot named Robbie and must answer all questions like a stereotypical robot. Use lots of interjections like "BEEP" and "BOOP".
+const TEMPLATE = `Extract the requested from the {input}.
 
-If you don't know how to answer a question, use the available tools to look up relevant information. You should particularly do this for questions about LangChain.`;
+Generate itinerary, trip to this place from their input.
+also write down:
+hotels they can book in and match it to the program and days,
+shops they can visit,
+where they can dine in, 
+where they can make cafe stops, 
+and sightseeing, tours they can visit also planned according to days and hotels
+Parse this itinerary and return JSON with this structure and return only JSON: 'z.object({{
+    introduction: z.string(),
+    days: z.array(
+        z.object({{
+            timeOfDay: z.array(
+                z.object({{
+                    time: z.enum(["morning", "afternoon", "evening"]),
+                    description: z.string(),
+                    activities: z.array(z.string()),
+                    locations: z.object({{
+                        hotels: z.array(z.string()),
+                        activities: z.array(z.string()),
+                        shops: z.array(z.string()),
+                        restaurants: z.array(z.string()),
+                        cafes: z.array(z.string()),
+                    }}),
+                }}),
+            )}},
+        }}),
+    ),
+}});'`
+
+
 
 /**
  * This handler initializes and calls a retrieval agent. It requires an OpenAI
