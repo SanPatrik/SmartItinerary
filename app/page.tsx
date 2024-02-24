@@ -2,6 +2,7 @@ import { Itinerary } from "@/components/Itenirary";
 import { redirect } from "next/navigation";
 import React, { Suspense } from "react";
 
+
 export default function Home() {
 
     return (

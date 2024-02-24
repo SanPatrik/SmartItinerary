@@ -25,9 +25,6 @@ export async function POST(req: NextRequest) {
     const text = body.get('text');
     const pdfFile = body.get('pdf') as File;
 
-    const textFromPdf = await extractTextFromPDF(pdfFile);
-
-
     try {
         //Upload do SupaBase DB
         // const client = createClient(process.env.SUPABASE_URL!, process.env.SUPABASE_PRIVATE_KEY!);
@@ -45,7 +42,7 @@ export async function POST(req: NextRequest) {
         //     queryName: "match_documents",
         // });
 
-        return NextResponse.json({ text: text, pdfFile: pdfFile.name, string: textFromPdf, }, { status: 200 });
+        return NextResponse.json({ text: text, pdfFile: pdfFile.name }, { status: 200 });
     } catch (e: any) {
         return NextResponse.json({ error: e.message }, { status: 500 });
     }

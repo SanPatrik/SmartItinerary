@@ -39,7 +39,30 @@ hotels they can book in and match it to the program and days,
 shops they can visit,
 where they can dine in, 
 where they can make cafe stops, 
-and sightseeing, tours they can visit also planned according to days and hotels`;
+and sightseeing, tours they can visit also planned according to days and hotels
+Parse this itinerary and return JSON with this structure and return only JSON: 'z.object({{
+    introduction: z.string(),
+    days: z.array(
+        z.object({{
+            timeOfDay: z.array(
+                z.object({{
+                    time: z.enum(["morning", "afternoon", "evening"]),
+                    description: z.string(),
+                    activities: z.array(z.string()),
+                    locations: z.object({{
+                        hotels: z.array(z.string()),
+                        activities: z.array(z.string()),
+                        shops: z.array(z.string()),
+                        restaurants: z.array(z.string()),
+                        cafes: z.array(z.string()),
+                    }}),
+                }}),
+            )}},
+        }}),
+    ),
+}});'`
+
+
 
 /**
  * This handler initializes and calls a retrieval agent. It requires an OpenAI
