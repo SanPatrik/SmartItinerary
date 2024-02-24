@@ -5,6 +5,8 @@ import { createClient } from "@supabase/supabase-js";
 import { SupabaseVectorStore } from "langchain/vectorstores/supabase";
 import { OpenAIEmbeddings } from "langchain/embeddings/openai";
 
+import { extractTextFromPDF } from "@/utils/pdf/pdfUtils";
+
 export const runtime = "edge";
 
 // Before running, follow set-up instructions at

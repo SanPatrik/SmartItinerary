@@ -1,36 +1,23 @@
-import { NextRequest, NextResponse } from "next/server";
-import { Message as VercelChatMessage, StreamingTextResponse } from "ai";
+import { NextResponse } from "next/server";
 
 import { createClient } from "@supabase/supabase-js";
 
 import { ChatOpenAI } from "langchain/chat_models/openai";
 import { SupabaseVectorStore } from "langchain/vectorstores/supabase";
-import { AIMessage, ChatMessage, HumanMessage } from "langchain/schema";
 import { OpenAIEmbeddings } from "langchain/embeddings/openai";
 import { createRetrieverTool, OpenAIAgentTokenBufferMemory } from "langchain/agents/toolkits";
-import { ChatMessageHistory } from "langchain/memory";
 import { initializeAgentExecutorWithOptions } from "langchain/agents";
 import { z } from "zod";
 import { StructuredOutputParser } from "langchain/output_parsers";
 import { RunnableSequence } from "langchain/schema/runnable";
 import { PromptTemplate } from "langchain/prompts";
 
-export const runtime = "edge";
+// export const runtime = "edge";
 
 /*
     Message for chatAI example:
         Give me a plan for two days in paris, include few museums and at least 3 sightseeings a day
  */
-
-const convertVercelMessageToLangChainMessage = (message: VercelChatMessage) => {
-    if (message.role === "user") {
-        return new HumanMessage(message.content);
-    } else if (message.role === "assistant") {
-        return new AIMessage(message.content);
-    } else {
-        return new ChatMessage(message.content, message.role);
-    }
-};
 
 const TEMPLATE = `Extract the requested from the {input}.
 Generate itinerary, trip to this place from their input.
@@ -39,30 +26,7 @@ hotels they can book in and match it to the program and days,
 shops they can visit,
 where they can dine in, 
 where they can make cafe stops, 
-and sightseeing, tours they can visit also planned according to days and hotels
-Parse this itinerary and return JSON with this structure and return only JSON: 'z.object({{
-    introduction: z.string(),
-    days: z.array(
-        z.object({{
-            timeOfDay: z.array(
-                z.object({{
-                    time: z.enum(["morning", "afternoon", "evening"]),
-                    description: z.string(),
-                    activities: z.array(z.string()),
-                    locations: z.object({{
-                        hotels: z.array(z.string()),
-                        activities: z.array(z.string()),
-                        shops: z.array(z.string()),
-                        restaurants: z.array(z.string()),
-                        cafes: z.array(z.string()),
-                    }}),
-                }}),
-            )}},
-        }}),
-    ),
-}});'`
-
-
+and sightseeing, tours they can visit also planned according to days and hotels`;
 
 /**
  * This handler initializes and calls a retrieval agent. It requires an OpenAI
@@ -70,19 +34,11 @@ Parse this itinerary and return JSON with this structure and return only JSON: '
  *
  * https://js.langchain.com/docs/use_cases/question_answering/conversational_retrieval_agents
  */
-export async function POST(req: NextRequest) {
+export async function GetItenirary(prompt: string) {
+    "use server";
     try {
-        const body = await req.json();
-        /**
-         * We represent intermediate steps as system messages for display purposes,
-         * but don't want them in the chat history.
-         */
-        const messages = (body.messages ?? []).filter(
-            (message: VercelChatMessage) => message.role === "user" || message.role === "assistant",
-        );
-        const returnIntermediateSteps = body.show_intermediate_steps;
-        const previousMessages = messages.slice(0, -1);
-        const currentMessageContent = messages[messages.length - 1].content;
+        if (!prompt) return undefined
+        const currentMessageContent = prompt;
 
         const model = new ChatOpenAI({
             modelName: "gpt-3.5-turbo",
@@ -95,7 +51,7 @@ export async function POST(req: NextRequest) {
             queryName: "match_documents",
         });
 
-        const chatHistory = new ChatMessageHistory(previousMessages.map(convertVercelMessageToLangChainMessage));
+        // const chatHistory = new ChatMessageHistory(previousMessages.map(convertVercelMessageToLangChainMessage));
 
         /**
          * This is a special type of memory specifically for conversational
@@ -112,7 +68,6 @@ export async function POST(req: NextRequest) {
             llm: model,
             memoryKey: "chat_history",
             outputKey: "output",
-            chatHistory,
         });
 
         const retriever = vectorstore.asRetriever();
@@ -138,16 +93,6 @@ export async function POST(req: NextRequest) {
 
         const result = await executor.call({
             input: currentMessageContent,
-        });
-
-        const timeOfDaySchema = z.object({
-            label: z.string(),
-            activities: z.array(z.string()),
-        });
-
-        const daySchema = z.object({
-            label: z.string(),
-            timesOfDay: z.array(timeOfDaySchema),
         });
 
         const parser = StructuredOutputParser.fromZodSchema(
@@ -190,35 +135,11 @@ export async function POST(req: NextRequest) {
             format_instructions: parser.getFormatInstructions(),
         });
 
-        console.log("");
         console.log("Response:");
         console.log(parsedItineraryData);
-        if (returnIntermediateSteps) {
-            return NextResponse.json(
-                {
-                    output: result.output,
-                    intermediate_steps: result.intermediateSteps,
-                    travelPlanData: parsedItineraryData,
-                },
-                { status: 200 },
-            );
-        } else {
-            // Agent executors don't support streaming responses (yet!), so stream back the complete response one
-            // character at a time to simulate it.
-            const textEncoder = new TextEncoder();
-            const fakeStream = new ReadableStream({
-                async start(controller) {
-                    for (const character of result.output) {
-                        controller.enqueue(textEncoder.encode(character));
-                        await new Promise((resolve) => setTimeout(resolve, 20));
-                    }
-                    controller.close();
-                },
-            });
 
-            return new StreamingTextResponse(fakeStream);
-        }
+        return parsedItineraryData;
     } catch (e: any) {
-        return NextResponse.json({ error: e.message }, { status: 500 });
+        return undefined;
     }
 }
