@@ -28,29 +28,33 @@ where they can dine in,
 where they can make cafe stops, 
 and sightseeing, tours they can visit also planned according to days and hotels`;
 
-const itenirarySchema = z.object({
-    introduction: z.string(),
-    days: z.array(
+const itineraryLocationSchema = z.object({
+    hotels: z.array(z.string()),
+    activities: z.array(z.string()),
+    shops: z.array(z.string()),
+    restaurants: z.array(z.string()),
+    cafes: z.array(z.string()),
+});
+
+const itineraryDaySchema = z.object({
+    timeOfDay: z.array(
         z.object({
-            timeOfDay: z.array(
-                z.object({
-                    time: z.enum(["morning", "afternoon", "evening"]),
-                    description: z.string(),
-                    activities: z.array(z.string()),
-                    locations: z.object({
-                        hotels: z.array(z.string()),
-                        activities: z.array(z.string()),
-                        shops: z.array(z.string()),
-                        restaurants: z.array(z.string()),
-                        cafes: z.array(z.string()),
-                    }),
-                }),
-            ),
+            time: z.enum(["morning", "afternoon", "evening"]),
+            description: z.string(),
+            activities: z.array(z.string()),
+            locations: itineraryLocationSchema,
         }),
     ),
 });
 
-export type ItenirarySchema = z.infer<typeof itenirarySchema>;
+const itinerarySchema = z.object({
+    introduction: z.string(),
+    days: z.array(itineraryDaySchema),
+});
+
+export type ItinerarySchema = z.infer<typeof itinerarySchema>;
+export type IteniraryDaySchema = z.infer<typeof itineraryDaySchema>;
+export type ItineraryLocationSchema = z.infer<typeof itineraryLocationSchema>;
 
 /**
  * This handler initializes and calls a retrieval agent. It requires an OpenAI
@@ -58,7 +62,7 @@ export type ItenirarySchema = z.infer<typeof itenirarySchema>;
  *
  * https://js.langchain.com/docs/use_cases/question_answering/conversational_retrieval_agents
  */
-export async function GetItenirary(prompt: string): Promise<ItenirarySchema | undefined>{
+export async function GetItenirary(prompt: string): Promise<ItinerarySchema | undefined> {
     "use server";
     try {
         if (!prompt) return undefined;
@@ -119,7 +123,7 @@ export async function GetItenirary(prompt: string): Promise<ItenirarySchema | un
             input: currentMessageContent,
         });
 
-        const parser = StructuredOutputParser.fromZodSchema(itenirarySchema);
+        const parser = StructuredOutputParser.fromZodSchema(itinerarySchema);
 
         const chain = RunnableSequence.from([
             PromptTemplate.fromTemplate(
