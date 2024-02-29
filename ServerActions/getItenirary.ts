@@ -58,7 +58,7 @@ export type ItenirarySchema = z.infer<typeof itenirarySchema>;
  *
  * https://js.langchain.com/docs/use_cases/question_answering/conversational_retrieval_agents
  */
-export async function GetItenirary(prompt: string) {
+export async function GetItenirary(prompt: string): Promise<ItenirarySchema | undefined>{
     "use server";
     try {
         if (!prompt) return undefined;
