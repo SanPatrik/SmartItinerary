@@ -1,5 +1,6 @@
 import { GetItenirary, GetIteniraryMock, ItineraryLocationSchema } from "@/ServerActions/getItenirary";
 import { Places } from "./Places";
+import DayCard from "@/components/DayCard";
 
 type Props = {
     prompt: string;
@@ -12,11 +13,14 @@ export async function Itinerary(props: Props) {
     }
 
     const locations = itenirary?.days[0]?.timeOfDay[0]?.locations
+    const dayData = itenirary?.days[0]
+
     return (
         <div className="p-4 md:p-8 rounded ">
             <h1 className="text-3xl md:text-4xl mb-4">▲ Smart Itinerary 🔗</h1>
             {JSON.stringify(itenirary)}
             <Places locations={locations} />
+            <DayCard data={dayData} />
         </div>
     );
 }
