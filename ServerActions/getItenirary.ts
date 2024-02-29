@@ -28,6 +28,30 @@ where they can dine in,
 where they can make cafe stops, 
 and sightseeing, tours they can visit also planned according to days and hotels`;
 
+const itenirarySchema = z.object({
+    introduction: z.string(),
+    days: z.array(
+        z.object({
+            timeOfDay: z.array(
+                z.object({
+                    time: z.enum(["morning", "afternoon", "evening"]),
+                    description: z.string(),
+                    activities: z.array(z.string()),
+                    locations: z.object({
+                        hotels: z.array(z.string()),
+                        activities: z.array(z.string()),
+                        shops: z.array(z.string()),
+                        restaurants: z.array(z.string()),
+                        cafes: z.array(z.string()),
+                    }),
+                }),
+            ),
+        }),
+    ),
+});
+
+export type ItenirarySchema = z.infer<typeof itenirarySchema>;
+
 /**
  * This handler initializes and calls a retrieval agent. It requires an OpenAI
  * Functions model. See the docs for more information:
@@ -37,7 +61,7 @@ and sightseeing, tours they can visit also planned according to days and hotels`
 export async function GetItenirary(prompt: string) {
     "use server";
     try {
-        if (!prompt) return undefined
+        if (!prompt) return undefined;
         const currentMessageContent = prompt;
 
         const model = new ChatOpenAI({
@@ -95,29 +119,7 @@ export async function GetItenirary(prompt: string) {
             input: currentMessageContent,
         });
 
-        const parser = StructuredOutputParser.fromZodSchema(
-            z.object({
-                introduction: z.string(),
-                days: z.array(
-                    z.object({
-                        timeOfDay: z.array(
-                            z.object({
-                                time: z.enum(["morning", "afternoon", "evening"]),
-                                description: z.string(),
-                                activities: z.array(z.string()),
-                                locations: z.object({
-                                    hotels: z.array(z.string()),
-                                    activities: z.array(z.string()),
-                                    shops: z.array(z.string()),
-                                    restaurants: z.array(z.string()),
-                                    cafes: z.array(z.string()),
-                                }),
-                            }),
-                        ),
-                    }),
-                ),
-            }),
-        );
+        const parser = StructuredOutputParser.fromZodSchema(itenirarySchema);
 
         const chain = RunnableSequence.from([
             PromptTemplate.fromTemplate(
