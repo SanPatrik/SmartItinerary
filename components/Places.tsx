@@ -1,20 +1,23 @@
-import { ItinerarySchema } from '@/ServerActions/getItenirary';
+import { ItineraryLocationSchema } from '@/ServerActions/getItenirary';
 import React from 'react';
 
-type Places = {
-    itenirary: ItinerarySchema
+type PlacesProps = {
+    locations: ItineraryLocationSchema
 }
 
-export const Places = (props: Places) => {
-    const places = props.itenirary.days
+export const Places = (props: PlacesProps) => {
+    
     return (
-        <div>
+        <div className="flex flex-row">
             {/* Your component content goes here */}
         </div>
     );
 };
 
+// type PlaceProps = {
+//     location: ItineraryLocationSchema
+// }
 
-const Place = () => {
+// const Place = (props: PlaceProps) => {
 
-}
+// }

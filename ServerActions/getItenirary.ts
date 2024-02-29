@@ -42,10 +42,10 @@ const itineraryDayInfoSchema = z.object({
     description: z.string(),
     activities: z.array(z.string()),
     locations: itineraryLocationSchema,
-})
+});
 
 const itineraryDaySchema = z.object({
-    timeOfDay: z.array(itineraryDayInfoSchema)
+    timeOfDay: z.array(itineraryDayInfoSchema),
 });
 
 const itinerarySchema = z.object({
@@ -54,7 +54,7 @@ const itinerarySchema = z.object({
 });
 
 export type ItinerarySchema = z.infer<typeof itinerarySchema>;
-export type IteniraryDaySchema = z.infer<typeof itineraryDaySchema>;
+export type ItineraryDaySchema = z.infer<typeof itineraryDaySchema>;
 export type ItineraryLocationSchema = z.infer<typeof itineraryLocationSchema>;
 export type ItineraryDayInfoSchema = z.infer<typeof itineraryDayInfoSchema>;
 
