@@ -1,11 +1,11 @@
-import { GetItenirary } from "@/ServerActions/getItenirary";
+import { GetItenirary, GetIteniraryMock } from "@/ServerActions/getItenirary";
 
 type Props = {
     prompt: string;
 }
 
 export async function Itinerary(props: Props) {
-    const itenirary = await GetItenirary(props.prompt);
+    const itenirary = await GetIteniraryMock(props.prompt);
 
     return (
         <div className="p-4 md:p-8 rounded ">

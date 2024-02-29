@@ -11,6 +11,7 @@ import { z } from "zod";
 import { StructuredOutputParser } from "langchain/output_parsers";
 import { RunnableSequence } from "langchain/schema/runnable";
 import { PromptTemplate } from "langchain/prompts";
+import responseMock from "./responseMock.json";
 
 // export const runtime = "edge";
 
@@ -150,3 +151,8 @@ export async function GetItenirary(prompt: string): Promise<ItinerarySchema | un
         return undefined;
     }
 }
+
+export const GetIteniraryMock = async (prompt: string): Promise<ItinerarySchema | undefined> => {
+    console.log("using mock for prompt: ", prompt);
+    return Promise.resolve(responseMock as ItinerarySchema);
+};

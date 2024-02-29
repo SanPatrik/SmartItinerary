@@ -1,0 +1,235 @@
+{
+    "introduction": "Trip to London Itinerary",
+    "days": [
+        {
+            "timeOfDay": [
+                {
+                    "time": "morning",
+                    "description": "Check-in at Hotel 41 for a luxurious stay.",
+                    "activities": [],
+                    "locations": {
+                        "hotels": ["Hotel 41"],
+                        "activities": [],
+                        "shops": [],
+                        "restaurants": [],
+                        "cafes": ["Caravan"]
+                    }
+                },
+                {
+                    "time": "afternoon",
+                    "description": "Visit the iconic Buckingham Palace and explore St. James's Park.",
+                    "activities": [],
+                    "locations": {
+                        "hotels": [],
+                        "activities": ["Buckingham Palace", "St. James's Park"],
+                        "shops": [],
+                        "restaurants": [],
+                        "cafes": []
+                    }
+                },
+                {
+                    "time": "evening",
+                    "description": "Dine at KILN for a special occasion meal.",
+                    "activities": [],
+                    "locations": { "hotels": [], "activities": [], "shops": [], "restaurants": ["KILN"], "cafes": [] }
+                },
+                {
+                    "time": "evening",
+                    "description": "Enjoy a coffee break at Caravan.",
+                    "activities": [],
+                    "locations": {
+                        "hotels": [],
+                        "activities": [],
+                        "shops": [],
+                        "restaurants": [],
+                        "cafes": ["Caravan"]
+                    }
+                }
+            ]
+        },
+        {
+            "timeOfDay": [
+                {
+                    "time": "morning",
+                    "description": "Stay at The Ritz London for a grand experience.",
+                    "activities": [],
+                    "locations": {
+                        "hotels": ["The Ritz London"],
+                        "activities": [],
+                        "shops": [],
+                        "restaurants": [],
+                        "cafes": []
+                    }
+                },
+                {
+                    "time": "afternoon",
+                    "description": "Explore the historic Tower of London and Tower Bridge.",
+                    "activities": [],
+                    "locations": {
+                        "hotels": [],
+                        "activities": ["Tower of London", "Tower Bridge"],
+                        "shops": [],
+                        "restaurants": [],
+                        "cafes": []
+                    }
+                },
+                {
+                    "time": "evening",
+                    "description": "Enjoy a meal at NOBU for a unique dining experience.",
+                    "activities": [],
+                    "locations": { "hotels": [], "activities": [], "shops": [], "restaurants": ["NOBU"], "cafes": [] }
+                },
+                {
+                    "time": "evening",
+                    "description": "Stop by Cheese Bar for a snack.",
+                    "activities": [],
+                    "locations": {
+                        "hotels": [],
+                        "activities": [],
+                        "shops": [],
+                        "restaurants": [],
+                        "cafes": ["Cheese Bar"]
+                    }
+                }
+            ]
+        },
+        {
+            "timeOfDay": [
+                {
+                    "time": "morning",
+                    "description": "Check-in at The Dorchester for a lavish stay.",
+                    "activities": [],
+                    "locations": {
+                        "hotels": ["The Dorchester"],
+                        "activities": [],
+                        "shops": [],
+                        "restaurants": [],
+                        "cafes": []
+                    }
+                },
+                {
+                    "time": "afternoon",
+                    "description": "Visit the vibrant Covent Garden and enjoy street performances.",
+                    "activities": [],
+                    "locations": {
+                        "hotels": [],
+                        "activities": ["Covent Garden"],
+                        "shops": [],
+                        "restaurants": [],
+                        "cafes": []
+                    }
+                },
+                {
+                    "time": "evening",
+                    "description": "Indulge in British cuisine at Hawksmoor.",
+                    "activities": [],
+                    "locations": {
+                        "hotels": [],
+                        "activities": [],
+                        "shops": [],
+                        "restaurants": ["Hawksmoor"],
+                        "cafes": []
+                    }
+                },
+                {
+                    "time": "evening",
+                    "description": "Make a break at Bao for delicious treats.",
+                    "activities": [],
+                    "locations": { "hotels": [], "activities": [], "shops": [], "restaurants": [], "cafes": ["Bao"] }
+                }
+            ]
+        },
+        {
+            "timeOfDay": [
+                {
+                    "time": "morning",
+                    "description": "Stay at Claridge's for a classic and elegant accommodation.",
+                    "activities": [],
+                    "locations": {
+                        "hotels": ["Claridge's"],
+                        "activities": [],
+                        "shops": [],
+                        "restaurants": [],
+                        "cafes": []
+                    }
+                },
+                {
+                    "time": "afternoon",
+                    "description": "Experience the famous British Museum and its exhibitions.",
+                    "activities": [],
+                    "locations": {
+                        "hotels": [],
+                        "activities": ["British Museum"],
+                        "shops": [],
+                        "restaurants": [],
+                        "cafes": []
+                    }
+                },
+                {
+                    "time": "evening",
+                    "description": "Savor Asian flavors at Hutong.",
+                    "activities": [],
+                    "locations": { "hotels": [], "activities": [], "shops": [], "restaurants": ["Hutong"], "cafes": [] }
+                },
+                {
+                    "time": "evening",
+                    "description": "Relax with a coffee at Mien Tay.",
+                    "activities": [],
+                    "locations": {
+                        "hotels": [],
+                        "activities": [],
+                        "shops": [],
+                        "restaurants": [],
+                        "cafes": ["Mien Tay"]
+                    }
+                }
+            ]
+        },
+        {
+            "timeOfDay": [
+                {
+                    "time": "morning",
+                    "description": "Check-in at The Langham for a luxurious ending to your trip.",
+                    "activities": [],
+                    "locations": {
+                        "hotels": ["The Langham"],
+                        "activities": [],
+                        "shops": [],
+                        "restaurants": [],
+                        "cafes": []
+                    }
+                },
+                {
+                    "time": "afternoon",
+                    "description": "Take a Thames River Cruise for breathtaking views of London.",
+                    "activities": [],
+                    "locations": {
+                        "hotels": [],
+                        "activities": ["Thames River Cruise"],
+                        "shops": [],
+                        "restaurants": [],
+                        "cafes": []
+                    }
+                },
+                {
+                    "time": "evening",
+                    "description": "Dine at Rovi for a memorable culinary experience.",
+                    "activities": [],
+                    "locations": { "hotels": [], "activities": [], "shops": [], "restaurants": ["Rovi"], "cafes": [] }
+                },
+                {
+                    "time": "evening",
+                    "description": "End your trip with a visit to Gunpowder for delicious bites.",
+                    "activities": [],
+                    "locations": {
+                        "hotels": [],
+                        "activities": [],
+                        "shops": [],
+                        "restaurants": [],
+                        "cafes": ["Gunpowder"]
+                    }
+                }
+            ]
+        }
+    ]
+}
