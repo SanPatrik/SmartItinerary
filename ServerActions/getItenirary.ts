@@ -20,32 +20,26 @@ import responseMock from "./responseMock.json";
         Give me a plan for two days in paris, include few museums and at least 3 sightseeings a day
  */
 
-const TEMPLATE = `Extract the requested from the {input}.
-Generate itinerary, trip to this place from their input.
-also write down:
-hotels they can book in and match it to the program and days,
-shops they can visit,
-where they can dine in, 
-where they can make cafe stops, 
-and sightseeing, tours they can visit also planned according to days and hotels`;
+const TEMPLATE = `
+Extract the request from the {input}.
+Generate itinerary trip for this input with all the specific requirements in it.
+Write down:
+Introduction, description for each day, separate each day into times what to do and for each day generate tags.
+Tags are locations, activities, hotels, monuments, sightseeings that will be exactly taken from description text and can ba later used to map something on the said tag in description like URL.
+Plan everything in order, so if we go somewhere in morning chronologically we go in order trough the destination and we will not hop from one side of the city to another.
+If input does not contain any real location return error.
+Itinerary should be professional like from tourism company.
 
-const itineraryLocationSchema = z.object({
-    hotels: z.array(z.string()),
-    activities: z.array(z.string()),
-    shops: z.array(z.string()),
-    restaurants: z.array(z.string()),
-    cafes: z.array(z.string()),
-});
+`;
 
 const itineraryDayInfoSchema = z.object({
     time: z.enum(["morning", "afternoon", "evening"]),
     description: z.string(),
-    activities: z.array(z.string()),
-    locations: itineraryLocationSchema,
 });
 
 const itineraryDaySchema = z.object({
     timeOfDay: z.array(itineraryDayInfoSchema),
+    tags: z.array(z.string())
 });
 
 const itinerarySchema = z.object({
@@ -55,8 +49,6 @@ const itinerarySchema = z.object({
 
 export type ItinerarySchema = z.infer<typeof itinerarySchema>;
 export type ItineraryDaySchema = z.infer<typeof itineraryDaySchema>;
-export type ItineraryLocationSchema = z.infer<typeof itineraryLocationSchema>;
-export type ItineraryDayInfoSchema = z.infer<typeof itineraryDayInfoSchema>;
 
 /**
  * This handler initializes and calls a retrieval agent. It requires an OpenAI
