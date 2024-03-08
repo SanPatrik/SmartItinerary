@@ -1,5 +1,4 @@
 import { GetItenirary, GetIteniraryMock } from "@/ServerActions/getItenirary";
-import { Places } from "./Places";
 import DayCard from "@/components/DayCard";
 
 type Props = {
