@@ -1,27 +1,14 @@
-import { ItineraryLocationSchema } from "@/ServerActions/getItenirary";
 import React from "react";
 
 type PlacesProps = {
-    locations: ItineraryLocationSchema;
+    locations: string[];
 };
 
 export const Places = (props: PlacesProps) => {
     return (
         <div className="flex flex-row gap-10">
-            {props.locations.hotels.map((name, index) => {
-                return <Place key={name} placeName={name} />;
-            })}
-            {props.locations.activities.map((name, index) => {
-                return <Place key={name} placeName={name} />;
-            })}
-            {props.locations.shops.map((name, index) => {
-                return <Place key={name} placeName={name} />;
-            })}
-            {props.locations.restaurants.map((name, index) => {
-                return <Place key={name} placeName={name} />;
-            })}
-            {props.locations.cafes.map((name, index) => {
-                return <Place key={name} placeName={name} />;
+            {props.locations.map((tag) => {
+                return <Place key={tag} placeName={tag} />;
             })}
         </div>
     );

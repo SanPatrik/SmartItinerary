@@ -11,10 +11,9 @@ const DayCard = async ({ data }: { data: ItineraryDaySchema }) => {
                             <span className="font-bold">{timeOfDay.time}. </span>
                             {timeOfDay.description}
                         </div>
-                        <div className="mt-2 text-blue-500">{timeOfDay.activities}</div>
-                        <Places locations={timeOfDay.locations} />
                     </div>
                 ))}
+                <Places locations={data.tags} />
             </div>
         </>
     );
