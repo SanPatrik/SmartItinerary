@@ -1,5 +1,6 @@
 import { GetItenirary, GetIteniraryMock } from "@/ServerActions/getItenirary";
 import DayCard from "@/components/DayCard";
+import { MapBox } from "./MapBox";
 
 type Props = {
     prompt: string;
@@ -18,7 +19,9 @@ export async function Itinerary(props: Props) {
                     <DayCard data={day} key={index} />
                 ))}
             </div>
-            <div className="w-6/12">map</div>
+            <div className="w-6/12" style={{ height: "80vh" }}>
+                <MapBox />
+            </div>
         </div>
     );
 }
