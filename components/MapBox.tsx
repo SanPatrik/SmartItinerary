@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useMemo } from "react";
 import "mapbox-gl/dist/mapbox-gl.css";
 import Map, { GeolocateControl, Marker, NavigationControl } from "react-map-gl";
 import { GeolocationApiResponse } from "@/types/GeolocationApiResponse";
@@ -9,10 +9,12 @@ type Props = {
 };
 
 export const MapBox = (props: Props) => {
-    console.log(props.tags);
+    const safeTags = useMemo(() => {
+        return props.tags.filter((tag) => tag?.features?.length > 0);
+    }, [props.tags]);
     return (
         <Map
-            mapboxAccessToken="pk.eyJ1IjoieG1paGFsaWtvIiwiYSI6ImNsaDJidHB1aTFjNWozZG9ncGlidHhiOGgifQ.cHfbnEE7SyAOD9zTuOAr-g"
+            mapboxAccessToken={process.env.NEXT_PUBLIC_REACT_APP_MAPBOX_ACCESS_TOKEN}
             mapLib={import("mapbox-gl")}
             initialViewState={{
                 longitude: -0.0760706875,
@@ -23,7 +25,7 @@ export const MapBox = (props: Props) => {
         >
             <NavigationControl />
             <GeolocateControl />
-            {props.tags.map((tag) => {
+            {safeTags.map((tag) => {
                 return (
                     <Marker
                         key={tag.features[0].id}

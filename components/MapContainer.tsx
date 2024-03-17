@@ -16,7 +16,7 @@ export const MapContainer = async (props: Props) => {
             const urlEncoded = encodeURIComponent(tag);
             fetchPromises.push(
                 fetch(
-                    `https://api.mapbox.com/geocoding/v5/mapbox.places/${urlEncoded}.json?country=gb&limit=1&proximity=ip&access_token=pk.eyJ1IjoieG1paGFsaWtvIiwiYSI6ImNsaDJicGpqNDFjOGEzZGp1eTl1dm56ejQifQ.vqQeGERHnQuR5uq4XUpY2A`,
+                    `https://api.mapbox.com/geocoding/v5/mapbox.places/${urlEncoded}.json?country=gb&limit=1&proximity=ip&access_token=${process.env.NEXT_PUBLIC_REACT_APP_MAPBOX_ACCESS_TOKEN}`,
                 ),
             );
         }
