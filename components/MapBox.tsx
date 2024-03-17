@@ -1,9 +1,15 @@
 "use client";
-import React, { Suspense } from "react";
+import React from "react";
 import "mapbox-gl/dist/mapbox-gl.css";
-import Map, { GeolocateControl, NavigationControl } from "react-map-gl";
-import { MapMarkers } from "./MapMarkers";
-export const MapBox = () => {
+import Map, { GeolocateControl, Marker, NavigationControl } from "react-map-gl";
+import { GeolocationApiResponse } from "@/types/GeolocationApiResponse";
+
+type Props = {
+    tags: GeolocationApiResponse[];
+};
+
+export const MapBox = (props: Props) => {
+    console.log(props.tags);
     return (
         <Map
             mapboxAccessToken="pk.eyJ1IjoieG1paGFsaWtvIiwiYSI6ImNsaDJidHB1aTFjNWozZG9ncGlidHhiOGgifQ.cHfbnEE7SyAOD9zTuOAr-g"
@@ -13,12 +19,19 @@ export const MapBox = () => {
                 latitude: 51.508094,
                 zoom: 11,
             }}
-            // style={{ width: "40vw", height: "40vh" }}
             mapStyle="mapbox://styles/mapbox/streets-v9"
         >
             <NavigationControl />
             <GeolocateControl />
-            <MapMarkers />
+            {props.tags.map((tag) => {
+                return (
+                    <Marker
+                        key={tag.features[0].id}
+                        longitude={tag.features[0].center[0]}
+                        latitude={tag.features[0].center[1]}
+                    />
+                );
+            })}
         </Map>
     );
 };

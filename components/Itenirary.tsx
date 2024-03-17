@@ -1,6 +1,7 @@
-import { GetItenirary, GetIteniraryMock } from "@/ServerActions/getItenirary";
+import { GetIteniraryMock } from "@/ServerActions/getItenirary";
 import DayCard from "@/components/DayCard";
-import { MapBox } from "./MapBox";
+import { Suspense } from "react";
+import { MapContainer } from "./MapContainer";
 
 type Props = {
     prompt: string;
@@ -20,7 +21,9 @@ export async function Itinerary(props: Props) {
                 ))}
             </div>
             <div className="w-6/12" style={{ height: "80vh" }}>
-                <MapBox />
+                <Suspense>
+                    <MapContainer itenirary={itenirary} selectedDay={0} />
+                </Suspense>
             </div>
         </div>
     );
