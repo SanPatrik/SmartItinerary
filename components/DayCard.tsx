@@ -26,7 +26,10 @@ const DayCard = ({ data, dayNumber }: { data: ItineraryDaySchema, dayNumber: num
     return (
         <>
             <div className="max-w-3x1 w-9/12 mx-auto bg-purple-200 shadow-lg rounded-md overflow-hidden">
-                <div className="p-2 font-bold text-2xl text-center text-purple-800">Day {dayNumber}</div>
+                <div className="p-4 text-center">
+                    <span className="font-bold text-3xl text-purple-800 ml-2">Day {dayNumber}</span>
+                </div>
+                <div className="bg-purple-600 h-px"></div>
                 <div className="bg-white m-2 rounded-md shadow-md">
                     {data.timeOfDay.map((timeOfDay, timeIndex) => (
                         <div key={timeIndex} className="p-2 text-gray-800">
