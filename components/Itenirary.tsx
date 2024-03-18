@@ -18,7 +18,7 @@ export async function Itinerary(props: Props) {
         <div className=" md:p-4 rounded gap-10 flex w-full">
             <div className="flex flex-col gap-10 w-6/12">
                 {itenirary.days.map((day, index) => (
-                    <DayCard data={day} key={index} />
+                    <DayCard data={day} key={index} dayNumber={index + 1}/>
                 ))}
             </div>
             <div className="w-6/12" style={{ height: "80vh" }}>

@@ -6,7 +6,7 @@ type PlacesProps = {
 
 export const Places = (props: PlacesProps) => {
     return (
-        <div className="overflow-auto flex flex-row gap-10">
+        <div className="overflow-auto flex flex-row">
             {props.locations.map((tag) => {
                 return <Place key={tag} placeName={tag} />;
             })}
@@ -20,7 +20,7 @@ type PlaceProps = {
 
 const Place = (props: PlaceProps) => {
     return (
-        <div style={{ minWidth: "10rem", minHeight: "10rem" }} className="w-40 h-40 bg-green-50 text-black">
+        <div style={{ minWidth: "10rem", minHeight: "10rem" }} className="w-40 h-40 text-black text-center bg-white m-2 rounded-md shadow-md">
             {props.placeName}
         </div>
     );
