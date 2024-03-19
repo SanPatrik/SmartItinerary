@@ -10,8 +10,17 @@ import { OpenAIEmbeddings } from "langchain/embeddings/openai";
 import { createRetrieverTool, OpenAIAgentTokenBufferMemory } from "langchain/agents/toolkits";
 import { ChatMessageHistory } from "langchain/memory";
 import { initializeAgentExecutorWithOptions } from "langchain/agents";
+import { z } from "zod";
+import { StructuredOutputParser } from "langchain/output_parsers";
+import { RunnableSequence } from "langchain/schema/runnable";
+import { PromptTemplate } from "langchain/prompts";
 
 export const runtime = "edge";
+
+/*
+    Message for chatAI example:
+        Give me a plan for two days in paris, include few museums and at least 3 sightseeings a day
+ */
 
 const convertVercelMessageToLangChainMessage = (message: VercelChatMessage) => {
     if (message.role === "user") {
@@ -23,9 +32,37 @@ const convertVercelMessageToLangChainMessage = (message: VercelChatMessage) => {
     }
 };
 
-const TEMPLATE = `You are a stereotypical robot named Robbie and must answer all questions like a stereotypical robot. Use lots of interjections like "BEEP" and "BOOP".
+const TEMPLATE = `Extract the requested from the {input}.
+Generate itinerary, trip to this place from their input.
+also write down:
+hotels they can book in and match it to the program and days,
+shops they can visit,
+where they can dine in, 
+where they can make cafe stops, 
+and sightseeing, tours they can visit also planned according to days and hotels
+Parse this itinerary and return JSON with this structure and return only JSON: 'z.object({{
+    introduction: z.string(),
+    days: z.array(
+        z.object({{
+            timeOfDay: z.array(
+                z.object({{
+                    time: z.enum(["morning", "afternoon", "evening"]),
+                    description: z.string(),
+                    activities: z.array(z.string()),
+                    locations: z.object({{
+                        hotels: z.array(z.string()),
+                        activities: z.array(z.string()),
+                        shops: z.array(z.string()),
+                        restaurants: z.array(z.string()),
+                        cafes: z.array(z.string()),
+                    }}),
+                }}),
+            )}},
+        }}),
+    ),
+}});'`
 
-If you don't know how to answer a question, use the available tools to look up relevant information. You should particularly do this for questions about LangChain.`;
+
 
 /**
  * This handler initializes and calls a retrieval agent. It requires an OpenAI
@@ -48,7 +85,7 @@ export async function POST(req: NextRequest) {
         const currentMessageContent = messages[messages.length - 1].content;
 
         const model = new ChatOpenAI({
-            modelName: "gpt-4",
+            modelName: "gpt-3.5-turbo",
         });
 
         const client = createClient(process.env.SUPABASE_URL!, process.env.SUPABASE_PRIVATE_KEY!);
@@ -103,14 +140,71 @@ export async function POST(req: NextRequest) {
             input: currentMessageContent,
         });
 
+        const timeOfDaySchema = z.object({
+            label: z.string(),
+            activities: z.array(z.string()),
+        });
+
+        const daySchema = z.object({
+            label: z.string(),
+            timesOfDay: z.array(timeOfDaySchema),
+        });
+
+        const parser = StructuredOutputParser.fromZodSchema(
+            z.object({
+                introduction: z.string(),
+                days: z.array(
+                    z.object({
+                        timeOfDay: z.array(
+                            z.object({
+                                time: z.enum(["morning", "afternoon", "evening"]),
+                                description: z.string(),
+                                activities: z.array(z.string()),
+                                locations: z.object({
+                                    hotels: z.array(z.string()),
+                                    activities: z.array(z.string()),
+                                    shops: z.array(z.string()),
+                                    restaurants: z.array(z.string()),
+                                    cafes: z.array(z.string()),
+                                }),
+                            }),
+                        ),
+                    }),
+                ),
+            }),
+        );
+
+        const chain = RunnableSequence.from([
+            PromptTemplate.fromTemplate(
+                "Parse the result according to format instructions.\n{format_instructions}\n{trip_plan_result}",
+            ),
+            new ChatOpenAI({ temperature: 0 }),
+            parser,
+        ]);
+
+        console.log("Parsed data:");
+        console.log(parser.getFormatInstructions());
+
+        const parsedItineraryData = await chain.invoke({
+            trip_plan_result: result.output,
+            format_instructions: parser.getFormatInstructions(),
+        });
+
+        console.log("");
+        console.log("Response:");
+        console.log(parsedItineraryData);
         if (returnIntermediateSteps) {
             return NextResponse.json(
-                { output: result.output, intermediate_steps: result.intermediateSteps },
+                {
+                    output: result.output,
+                    intermediate_steps: result.intermediateSteps,
+                    travelPlanData: parsedItineraryData,
+                },
                 { status: 200 },
             );
         } else {
             // Agent executors don't support streaming responses (yet!), so stream back the complete response one
-            // character at a time to simluate it.
+            // character at a time to simulate it.
             const textEncoder = new TextEncoder();
             const fakeStream = new ReadableStream({
                 async start(controller) {
