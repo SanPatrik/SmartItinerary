@@ -41,7 +41,7 @@ export const MapBox = (props: Props) => {
     const safeTags = useMemo(() => {
         return props.tags.filter((tag) => tag?.features?.length > 0);
     }, [props.tags]);
-    console.log(props.tags);
+
     return (
         <Map
             mapboxAccessToken={process.env.NEXT_PUBLIC_REACT_APP_MAPBOX_ACCESS_TOKEN}
