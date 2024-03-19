@@ -1,4 +1,4 @@
-import { GetIteniraryMock } from "@/ServerActions/getItenirary";
+import { GetItenirary, GetIteniraryMock } from "@/ServerActions/getItenirary";
 import DayCard from "@/components/DayCard";
 import { Suspense } from "react";
 import { MapContainer } from "./MapContainer";
@@ -9,7 +9,7 @@ type Props = {
 };
 
 export async function Itinerary(props: Props) {
-    const itenirary = await GetIteniraryMock(props.prompt);
+    const itenirary = await GetItenirary(props.prompt);
     if (!itenirary) {
         return <div>Failed to load itinerary</div>;
     }
@@ -19,7 +19,7 @@ export async function Itinerary(props: Props) {
             <div className="flex flex-col gap-10 w-6/12 overflow-y-scroll max-h-[80vh]">
                 {itenirary.days.map((day, index) => (
                     <div className="max-h-[80vh]" key={index}>
-                        <DayCard data={day} dayNumber={index + 1}/>
+                        <DayCard data={day} dayNumber={index + 1} />
                     </div>
                 ))}
             </div>
@@ -27,6 +27,5 @@ export async function Itinerary(props: Props) {
                 <MapRoot itenirary={itenirary} />
             </div>
         </div>
-
     );
 }
