@@ -38,10 +38,6 @@ export const MapBox = (props: Props) => {
         },
     };
 
-    const safeTags = useMemo(() => {
-        return props.tags.filter((tag) => tag?.features?.length > 0);
-    }, [props.tags]);
-
     return (
         <Map
             mapboxAccessToken={process.env.NEXT_PUBLIC_REACT_APP_MAPBOX_ACCESS_TOKEN}
@@ -55,12 +51,12 @@ export const MapBox = (props: Props) => {
         >
             <NavigationControl />
             <GeolocateControl />
-            {safeTags.map((tag) => {
+            {props.tags.map((tag) => {
                 return (
                     <Marker
-                        key={tag.features[0].id}
-                        longitude={tag.features[0].center[0]}
-                        latitude={tag.features[0].center[1]}
+                        key={tag?.features?.[0]?.id}
+                        longitude={tag?.features?.[0]?.center[0] ?? 0}
+                        latitude={tag?.features?.[0]?.center[1] ?? 0}
                     />
                 );
             })}
