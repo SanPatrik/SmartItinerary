@@ -25,28 +25,27 @@ function assignLinksToTags(description: string, tags: string[]): string {
 const DayCard = ({ data, dayNumber }: { data: ItineraryDaySchema, dayNumber: number }) => {
     return (
         <>
-            <div className="max-w-3x1 w-9/12 mx-auto bg-purple-200 shadow-lg rounded-md overflow-hidden">
+            <div className="max-w-3x1 w-9/12 mx-auto shadow-lg rounded-xl overflow-hidden" style={{backgroundColor: "#F9F7F6"}}>
                 <div className="p-4 text-center">
-                    <span className="font-bold text-3xl text-purple-800 ml-2">Day {dayNumber}</span>
+                    <span className="font-bold text-3xl text-black ml-2">Day {dayNumber}</span>
                 </div>
-                <div className="bg-purple-600 h-px"></div>
-                <div className="bg-white m-2 rounded-md shadow-md">
-                    {data.timeOfDay.map((timeOfDay, timeIndex) => (
-                        <div key={timeIndex} className="p-2 text-gray-800">
-                            <div>
-                                <span className="font-bold">
-                                    {timeOfDay.time.charAt(0).toUpperCase()}{timeOfDay.time.slice(1)}.
-                                    &nbsp;
-                                </span>
-                                <span
-                                    dangerouslySetInnerHTML={{
-                                        __html: assignLinksToTags(timeOfDay.description, data.tags),
-                                    }}
-                                ></span>
+                {data.timeOfDay.map((timeOfDay, timeIndex) => (
+                    <div key={timeIndex} className="p-2 text-gray-800">
+                        <div>
+                            <div className="font-bold">
+                                {timeOfDay.time.charAt(0).toUpperCase()}{timeOfDay.time.slice(1)}.&nbsp;
                             </div>
                         </div>
-                    ))}
-                </div>
+                        <div>
+                            <span
+                                dangerouslySetInnerHTML={{
+                                    __html: assignLinksToTags(timeOfDay.description, data.tags),
+                                }}
+                            ></span>
+                        </div>
+                    </div>
+                ))}
+
                 <Places locations={data.tags} />
             </div>
         </>
