@@ -21,15 +21,16 @@ import responseMock from "./responseMock.json";
  */
 
 const TEMPLATE = `
-Extract the request from the {input}.
-Generate itinerary trip for this input with all the specific requirements in it.
+Extract the request from the "{input}".
+Generate itinerary trip for this input: "{input}", with all the specific requirements in it.
 Write down:
-Introduction, description for each day, separate each day into times what to do and for each day generate tags.
-Tags are locations, activities, hotels, monuments, sightseeings that will be exactly taken from description text and can ba later used to map something on the said tag in description like URL.
-Plan everything in order, so if we go somewhere in morning chronologically we go in order trough the destination and we will not hop from one side of the city to another.
+City name, country code (2 character country code), introduction, separate each day into times ("morning", "afternoon", "evening") then generate description for each time and generate tags.
+Tags are locations, activities, hotels, monuments, sightseeings any of these that will be exactly taken from description text, and can be later used to map location on the said tag in description, for example map location to some URL.
+Tags are places that are recommended based on the requirements from the input: "{input}".
+Descriptions should be created with requirements based on input: "{input}" and it should contain said tags based on these requirements.
+Plan everything in order, so if we go somewhere in morning chronologically we go in order trough the destination and we will not hop from one side of the city to another and vice versa.
 If input does not contain any real location return error.
 Itinerary should be professional like from tourism company.
-
 `;
 
 const itineraryDayInfoSchema = z.object({
@@ -39,10 +40,12 @@ const itineraryDayInfoSchema = z.object({
 
 const itineraryDaySchema = z.object({
     timeOfDay: z.array(itineraryDayInfoSchema),
-    tags: z.array(z.string())
+    tags: z.array(z.string()),
 });
 
 const itinerarySchema = z.object({
+    city: z.string(),
+    countryCode: z.string(),
     introduction: z.string(),
     days: z.array(itineraryDaySchema),
 });
@@ -116,6 +119,9 @@ export async function GetItenirary(prompt: string): Promise<ItinerarySchema | un
         const result = await executor.call({
             input: currentMessageContent,
         });
+
+        console.log("Output:");
+        console.log(result.output);
 
         const parser = StructuredOutputParser.fromZodSchema(itinerarySchema);
 

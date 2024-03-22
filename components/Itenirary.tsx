@@ -17,6 +17,8 @@ export async function Itinerary(props: Props) {
     return (
         <div className="md:p-4 rounded gap-10 flex w-full">
             <div className="flex flex-col gap-10 w-6/12 overflow-y-scroll max-h-[80vh]">
+                {itenirary.city} {itenirary.countryCode}
+                {itenirary.introduction}
                 {itenirary.days.map((day, index) => (
                     <div className="max-h-[100vh]" key={index}>
                         <DayCard data={day} dayNumber={index + 1} />
