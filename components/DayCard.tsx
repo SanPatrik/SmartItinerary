@@ -15,7 +15,7 @@ function assignLinksToTags(description: string, tags: string[]): string {
         const tagRegex = new RegExp(tag.replace(/[-\/\\^$*+?.()|[\]{}]/g, "\\$&"), "g"); // Escaping special characters
         description = description.replace(
             tagRegex,
-            `<a href="${links[index]}" style="color: #ff6433;" target="_blank" rel="noopener noreferrer">${tag}</a>`,
+            `<a href="${links[index]}" class="text-purple-600" target="_blank" rel="noopener noreferrer">${tag}</a>`,
         );
     });
 
@@ -25,7 +25,7 @@ function assignLinksToTags(description: string, tags: string[]): string {
 const DayCard = ({ data, dayNumber }: { data: ItineraryDaySchema, dayNumber: number }) => {
     return (
         <>
-            <div className="max-w-3x1 w-9/12 mx-auto shadow-lg rounded-xl overflow-hidden" style={{backgroundColor: "#eaeaea"}}>
+            <div className="max-w-3x1 w-9/12 mx-auto shadow-lg rounded-xl overflow-hidden" style={{backgroundColor: "#F9F7F6"}}>
                 <div className="p-4 text-center">
                     <span className="font-bold text-3xl text-black ml-2">Day {dayNumber}</span>
                 </div>
