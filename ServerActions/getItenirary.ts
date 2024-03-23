@@ -25,8 +25,8 @@ Extract the request from the "{input}".
 Generate itinerary trip for this input: "{input}", with all the specific requirements in it.
 Write down:
 City name, country code (2 character country code), introduction, separate each day into times ("morning", "afternoon", "evening") then generate description for each time and generate tags.
-Tags are locations, activities, hotels, monuments, sightseeings any of these that will be exactly taken from description text, and can be later used to map location on the said tag in description, for example map location to some URL.
-Tags are places that are recommended based on the requirements from the input: "{input}".
+Tags are locations, activities, hotels, monuments, sightseeings any of these that will be exactly taken from description text so they must be equal to the text taken from description, and can be later used to map location on the said tag from description, for example map location to some URL.
+Tags are places that are recommended based on the requirements from the input: "{input}", they should be specific places not general places like hotel, bar etc. but specific.
 Descriptions should be created with requirements based on input: "{input}" and it should contain said tags based on these requirements.
 Plan everything in order, so if we go somewhere in morning chronologically we go in order trough the destination and we will not hop from one side of the city to another and vice versa.
 If input does not contain any real location return error.

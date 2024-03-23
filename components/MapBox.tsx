@@ -7,6 +7,7 @@ import type { FeatureCollection } from "geojson";
 type Props = {
     tags: GeolocationApiResponse[];
     route: number[][];
+    city: number[];
 };
 
 export const MapBox = (props: Props) => {
@@ -43,8 +44,8 @@ export const MapBox = (props: Props) => {
             mapboxAccessToken={process.env.NEXT_PUBLIC_REACT_APP_MAPBOX_ACCESS_TOKEN}
             mapLib={import("mapbox-gl")}
             initialViewState={{
-                longitude: -0.0760706875,
-                latitude: 51.508094,
+                longitude: props.city[0] ?? 0,
+                latitude: props.city[1] ?? 0,
                 zoom: 11,
             }}
             mapStyle="mapbox://styles/mapbox/streets-v9"

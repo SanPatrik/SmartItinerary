@@ -16,6 +16,15 @@ const encodeLocations = (locations: number[][]) => {
 };
 
 export const MapContainer = async (props: Props) => {
+    // Fetch latitude and longitude for the city
+    const cityResponse = await fetch(
+        `https://api.mapbox.com/geocoding/v5/mapbox.places/${encodeURIComponent(
+            props.itenirary.city,
+        )}.json?access_token=${process.env.NEXT_PUBLIC_REACT_APP_MAPBOX_ACCESS_TOKEN}`,
+    );
+    const cityData = await cityResponse.json();
+    const cityCoordinates = cityData.features[0]?.center;
+
     const fetchData = () => {
         const itinerary = props.itenirary?.days?.[props.selectedDay];
         const fetchPromises = [];
@@ -24,7 +33,9 @@ export const MapContainer = async (props: Props) => {
             const urlEncoded = encodeURIComponent(tag);
             fetchPromises.push(
                 fetch(
-                    `https://api.mapbox.com/geocoding/v5/mapbox.places/${urlEncoded}.json?country=gb&limit=1&proximity=ip&access_token=${process.env.NEXT_PUBLIC_REACT_APP_MAPBOX_ACCESS_TOKEN}`,
+                    `https://api.mapbox.com/geocoding/v5/mapbox.places/${urlEncoded}.json?country=${props.itenirary.countryCode.toLowerCase()}&limit=1&proximity=ip&access_token=${
+                        process.env.NEXT_PUBLIC_REACT_APP_MAPBOX_ACCESS_TOKEN
+                    }`,
                 ),
             );
         }
@@ -61,5 +72,5 @@ export const MapContainer = async (props: Props) => {
         return <div>No routes found</div>;
     }
 
-    return <MapBox tags={tags} route={routeCoordinates} />;
+    return <MapBox tags={tags} route={routeCoordinates} city={cityCoordinates} />;
 };
