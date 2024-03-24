@@ -52,10 +52,10 @@ export const MapBox = (props: Props) => {
         >
             <NavigationControl />
             <GeolocateControl />
-            {props.tags.map((tag) => {
+            {props.tags.map((tag, index) => {
                 return (
                     <Marker
-                        key={tag?.features?.[0]?.id}
+                        key={`${tag?.features?.[0]?.id}${index}`}
                         longitude={tag?.features?.[0]?.center[0] ?? 0}
                         latitude={tag?.features?.[0]?.center[1] ?? 0}
                     />
