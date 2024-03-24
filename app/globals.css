@@ -3,8 +3,7 @@
 @tailwind utilities;
 
 body {
-    color: #f8f8f8;
-    background: #131318;
+    background: #F9F7F6;
 }
 
 body input,
@@ -12,9 +11,7 @@ body textarea {
     color: black;
 }
 
-a {
-    color: #2d7bd4;
-}
+
 
 a:hover {
     border-bottom: 1px solid;
@@ -22,10 +19,6 @@ a:hover {
 
 p {
     margin: 8px 0;
-}
-
-code {
-    color: #ffa500;
 }
 
 li {

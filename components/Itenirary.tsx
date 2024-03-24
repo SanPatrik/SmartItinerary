@@ -18,7 +18,7 @@ export async function Itinerary(props: Props) {
         <div className="md:p-4 rounded gap-10 flex w-full bg-[#F9F7F6]">
             <div className="flex flex-col gap-10 w-6/12 overflow-y-scroll max-h-[80vh]">
                 <div className="max-h-[100vh] ">
-                    <div className="max-w-3x1 w-9/12 mx-auto shadow-lg rounded-xl overflow-hidden text-gray-800">
+                    <div className="max-w-3x1 w-9/12 mx-auto shadow-lg rounded-xl overflow-hidden text-gray-800 bg-[#eaeaea]">
                         <div className="flex items-center justify-start p-2">
                             <div className="font-bold text-3xl text-black ml-1">{itenirary.city}</div>
                             <div className="font-bold text-2xl text-gray-500 ml-2">{itenirary.countryCode}</div>
