@@ -13,8 +13,13 @@ export const MapRoot = (props: Props) => {
     return (
         <>
             {props.itenirary.days.map((day, index) => (
-                <button key={index} onClick={() => setCurrentSelectedDay(index)}>
-                    day {index + 1}
+                <button
+                    key={index}
+                    onClick={() => setCurrentSelectedDay(index)}
+                    className="rounded-md hover:bg-green-600 font-bold py-2 px-4 m-2 transition-colors duration-300 text-white"
+                    style={{ backgroundColor: '#639E63' }}
+                >
+                    Day {index + 1}
                 </button>
             ))}
             <Suspense fallback={<div>Loading</div>}>
