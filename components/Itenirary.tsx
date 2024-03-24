@@ -9,9 +9,15 @@ type Props = {
 };
 
 export async function Itinerary(props: Props) {
-    const itenirary = await GetItenirary(props.prompt);
+    const iteniraryResponse = await GetItenirary(props.prompt);
+    if (iteniraryResponse?.error) {
+        return <div>Failed to load itinerary {JSON.stringify(iteniraryResponse?.error)}</div>;
+    }
+
+    const itenirary = iteniraryResponse?.schema;
+
     if (!itenirary) {
-        return <div>Failed to load itinerary</div>;
+        return <div>No itenirary</div>;
     }
 
     return (

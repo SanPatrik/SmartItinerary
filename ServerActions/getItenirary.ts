@@ -53,16 +53,18 @@ const itinerarySchema = z.object({
 export type ItinerarySchema = z.infer<typeof itinerarySchema>;
 export type ItineraryDaySchema = z.infer<typeof itineraryDaySchema>;
 
+type ItinerarySchemaReturn = { schema?: ItinerarySchema; error?: string };
+
 /**
  * This handler initializes and calls a retrieval agent. It requires an OpenAI
  * Functions model. See the docs for more information:
  *
  * https://js.langchain.com/docs/use_cases/question_answering/conversational_retrieval_agents
  */
-export async function GetItenirary(prompt: string): Promise<ItinerarySchema | undefined> {
+export async function GetItenirary(prompt: string): Promise<ItinerarySchemaReturn> {
     "use server";
     try {
-        if (!prompt) return undefined;
+        if (!prompt) return { error: "No prompt provided" };
         const currentMessageContent = prompt;
 
         const model = new ChatOpenAI({
@@ -144,10 +146,10 @@ export async function GetItenirary(prompt: string): Promise<ItinerarySchema | un
         console.log("Response:");
         console.log(parsedItineraryData);
 
-        return parsedItineraryData;
+        return { schema: parsedItineraryData };
     } catch (e: any) {
         console.error("Failed to get itenirary: ", e);
-        return undefined;
+        return { error: e };
     }
 }
 
