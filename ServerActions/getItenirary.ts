@@ -146,6 +146,7 @@ export async function GetItenirary(prompt: string): Promise<ItinerarySchema | un
 
         return parsedItineraryData;
     } catch (e: any) {
+        console.error("Failed to get itenirary: ", e);
         return undefined;
     }
 }
