@@ -1,90 +1,57 @@
 {
-    "introduction": "This itinerary is designed for a 5-day trip to London, tailored for people in their 20s who are looking to experience the vibrant party scene, along with cultural and historical sights. We've planned a mix of day-time sightseeing and evening entertainment, ensuring a comprehensive exploration of the city without missing out on the fun nightlife.",
+    "city": "London",
+    "countryCode": "UK",
+    "introduction": "Itinerary for a 4-Day Trip to London",
     "days": [
         {
             "timeOfDay": [
                 {
                     "time": "morning",
-                    "description": "Start the day with a visit to the Tower of London, home to the Crown Jewels. Enjoy a scenic walk along the River Thames."
+                    "description": "Start your day with a visit to the South Bank, a cultural hub where you can enjoy performances at the Southbank Centre and admire the view of the London Eye and Houses of Parliament."
                 },
                 {
                     "time": "afternoon",
-                    "description": "Explore the lively area of Camden Market, known for its street food, unique shops, and vibrant atmosphere."
+                    "description": "Explore the Thames path and cycle along the canals that meander through the city, immersing yourself in the vibrant outdoor atmosphere of London."
                 },
                 {
                     "time": "evening",
-                    "description": "Experience London's famous nightlife with a pub crawl in Shoreditch, known for its trendy bars and clubs."
+                    "description": "Indulge in a leisurely evening by the river, sipping drinks and soaking in the bustling ambiance of the South Bank."
                 }
             ],
-            "tags": ["Tower of London", "River Thames", "Camden Market", "Shoreditch", "pub crawl"]
+            "tags": [
+                "South Bank",
+                "Southbank Centre",
+                "London Eye",
+                "Houses of Parliament",
+                "Thames path",
+                "Canals of London",
+                "Riverside Dining",
+                "South Bank View"
+            ]
         },
         {
             "timeOfDay": [
                 {
                     "time": "morning",
-                    "description": "Visit the British Museum to witness historical artifacts from around the world. Enjoy a leisurely lunch in the museum's cafe."
+                    "description": "Visit the French Huguenots' historic area at Spitalelds to delve into London's immigrant history and experience the creative charm of the 17th century."
                 },
                 {
                     "time": "afternoon",
-                    "description": "Walk through Covent Garden, known for its street performers and boutiques. Don't miss the chance to visit Neal's Yard, a hidden colorful alley."
+                    "description": "Immerse yourself in the literary culture of London at a market dedicated to the written word, exploring the diverse offerings and unique finds."
                 },
                 {
                     "time": "evening",
-                    "description": "Attend a musical or a play in one of the West End theatres, followed by drinks in Soho, the heart of London's nightlife."
+                    "description": "Relax and unwind in the cultural tapestry of London, reflecting on the day's discoveries and planning for more adventures ahead."
                 }
             ],
-            "tags": ["British Museum", "Covent Garden", "Neal's Yard", "West End", "Soho"]
-        },
-        {
-            "timeOfDay": [
-                {
-                    "time": "morning",
-                    "description": "Explore the historic Westminster area, visit the Houses of Parliament, Big Ben, and Westminster Abbey."
-                },
-                {
-                    "time": "afternoon",
-                    "description": "Enjoy the views from the London Eye, followed by a relaxing walk in Jubilee Gardens."
-                },
-                {
-                    "time": "evening",
-                    "description": "Discover London's South Bank nightlife, with options ranging from rooftop bars to cultural events at the Southbank Centre."
-                }
-            ],
-            "tags": ["Westminster", "Houses of Parliament", "Big Ben", "Westminster Abbey", "London Eye", "Jubilee Gardens", "South Bank", "Southbank Centre"]
-        },
-        {
-            "timeOfDay": [
-                {
-                    "time": "morning",
-                    "description": "Take a trip to Greenwich to visit the Royal Observatory and stand on the Prime Meridian Line. Enjoy the panoramic views of London from Greenwich Park."
-                },
-                {
-                    "time": "afternoon",
-                    "description": "Visit the historic Cutty Sark, a British clipper ship. Later, explore the Greenwich Market for unique crafts and food."
-                },
-                {
-                    "time": "evening",
-                    "description": "Return to central London and experience an exclusive nightclub in Mayfair, perfect for party enthusiasts."
-                }
-            ],
-            "tags": ["Greenwich", "Royal Observatory", "Prime Meridian Line", "Greenwich Park", "Cutty Sark", "Greenwich Market", "Mayfair", "nightclub"]
-        },
-        {
-            "timeOfDay": [
-                {
-                    "time": "morning",
-                    "description": "Start your day with a visit to Kensington Palace and walk through the beautiful Kensington Gardens."
-                },
-                {
-                    "time": "afternoon",
-                    "description": "Explore the shops and cafes in Notting Hill, famous for its colorful houses and Portobello Road Market."
-                },
-                {
-                    "time": "evening",
-                    "description": "End your trip with a farewell dinner at a rooftop restaurant overlooking the Thames, followed by a final night out in the trendy area of Hoxton."
-                }
-            ],
-            "tags": ["Kensington Palace", "Kensington Gardens", "Notting Hill", "Portobello Road Market", "Thames", "rooftop restaurant", "Hoxton"]
+            "tags": [
+                "Spitalelds",
+                "Huguenots History",
+                "Literary Market",
+                "Bookworm Haven",
+                "Cultural Experience",
+                "London Nightlife"
+            ]
         }
     ]
 }
