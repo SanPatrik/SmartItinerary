@@ -17,11 +17,16 @@ const encodeLocations = (locations: number[][]) => {
 
 export const MapContainer = async (props: Props) => {
     // Fetch latitude and longitude for the city
-    const cityResponse = await fetch(
-        `https://api.mapbox.com/geocoding/v5/mapbox.places/${encodeURIComponent(
-            props.itenirary.city,
-        )}.json?access_token=${process.env.NEXT_PUBLIC_REACT_APP_MAPBOX_ACCESS_TOKEN}`,
-    );
+    let cityResponse = undefined;
+    try {
+        cityResponse = await fetch(
+            `https://api.mapbox.com/geocoding/v5/mapbox.places/${encodeURIComponent(
+                props.itenirary.city,
+            )}.json?access_token=${process.env.NEXT_PUBLIC_REACT_APP_MAPBOX_ACCESS_TOKEN}`,
+        );
+    } catch {
+        return <div>No locations found</div>;
+    }
     const cityData = await cityResponse.json();
     const cityCoordinates = cityData.features[0]?.center;
 
@@ -43,8 +48,12 @@ export const MapContainer = async (props: Props) => {
     };
 
     const promises = fetchData();
-
-    const tagsPromises = await Promise.all(promises);
+    let tagsPromises: Response[] | undefined;
+    try {
+        tagsPromises = await Promise.all(promises);
+    } catch {
+        return <div>No locations found</div>;
+    }
     const tags: GeolocationApiResponse[] = [];
     for (const tag of tagsPromises) {
         const response = await tag.json();
@@ -55,16 +64,18 @@ export const MapContainer = async (props: Props) => {
         return <div>No locations found</div>;
     }
 
-    const locations = tags.map((tag) => tag.features[0]?.center).filter((location) => location?.[0] && location?.[1]);
-
+    const locations = tags.map((tag) => tag.features?.[0]?.center).filter((location) => location?.[0] && location?.[1]);
     const filteredLocations = locations.filter((location) => location) as number[][];
 
     const routeResponse = await fetch(
         `https://api.mapbox.com/directions/v5/mapbox/walking/${encodeLocations(
             filteredLocations,
         )}?alternatives=false&geometries=geojson&overview=full&steps=false&access_token=pk.eyJ1IjoieG1paGFsaWtvIiwiYSI6ImNsaDJicGpqNDFjOGEzZGp1eTl1dm56ejQifQ.vqQeGERHnQuR5uq4XUpY2A`,
-    );
+    ).catch(() => undefined);
 
+    if (!routeResponse) {
+        return <div>No routes found</div>;
+    }
     const route: DirectionApiResponse = await routeResponse.json();
     const routeCoordinates = route.routes?.[0]?.geometry?.coordinates;
 
