@@ -15,22 +15,17 @@ import responseMock from "./responseMock.json";
 
 // export const runtime = "edge";
 
-/*
-    Message for chatAI example:
-        Give me a plan for two days in paris, include few museums and at least 3 sightseeings a day
- */
-
 const TEMPLATE = `
-Extract the request from the "{input}".
-Generate itinerary trip for this input: "{input}", with all the specific requirements in it.
-Write down:
-City name, country code (2 character country code), introduction, separate each day into times ("morning", "afternoon", "evening") then generate description for each time and generate tags.
-Tags are locations, activities, hotels, monuments, sightseeings any of these that will be exactly taken from description text so they must be equal to the text taken from description, and can be later used to map location on the said tag from description, for example map location to some URL.
-Tags are places that are recommended based on the requirements from the input: "{input}", they should be specific places not general places like hotel, bar etc. but specific.
-Descriptions should be created with requirements based on input: "{input}" and it should contain said tags based on these requirements.
-Plan everything in order, so if we go somewhere in morning chronologically we go in order trough the destination and we will not hop from one side of the city to another and vice versa.
-If input does not contain any real location return error.
-Itinerary should be professional like from tourism company.
+Extract the request from the "{input}" in any language.
+    Generate itinerary trip for this input: "{input}", with all the specific requirements in it in that language.
+    Write down:
+    City name, country code (ISO 3166-1 A-2), introduction, separate each day into times ("morning", "afternoon", "evening") then generate description for each time and generate tags.
+    Tags are locations, activities, hotels, monuments, sightseeing's. These will be exactly extracted from description texts, so they must be equal to the locations taken from description, and can be later used to map location on the said tag from description (example: map location tag to some URL).
+These tags are places that are recommended based on the requirements from the input: "{input}". They should be specific real places that have specific name for that city from itinerary input! Try writing them in the way that we can easily find them by googling them. Meaning if its to general you can add the city name to that tag.
+Descriptions should be created with requirements, based on input: "{input}" and it should contain said tags based on these requirements.
+    Plan everything in order, so if we go somewhere in morning chronologically we go in order trough the destination and we will not hop from one side of the city to another and vice versa.
+    If input does not contain any real location return error.
+    Itinerary should be professional like from tourism company.
 `;
 
 const itineraryDayInfoSchema = z.object({
@@ -143,8 +138,10 @@ export async function GetItenirary(prompt: string): Promise<ItinerarySchemaRetur
             format_instructions: parser.getFormatInstructions(),
         });
 
-        console.log("Response:");
-        console.log(parsedItineraryData);
+        parsedItineraryData.days.forEach((day) => {
+            console.log("Response:");
+            console.log(day.tags);
+        });
 
         return { schema: parsedItineraryData };
     } catch (e: any) {
