@@ -28,8 +28,8 @@ export const Places = (props: PlacesProps) => {
             <button
                 onClick={handleLeftClick}
                 disabled={scrollPosition === 0}
-                className="m-0.5 text-black bg-purple-600 rounded-full"
-                style={{ borderRadius: "50%", minHeight: "1.5rem", minWidth: "1.5rem" }}
+                className="m-0.5 text-black rounded-full"
+                style={{ borderRadius: "50%", minHeight: "1.5rem", minWidth: "1.5rem", backgroundColor: "#ff6433" }}
             >
                 {"<"}
             </button>
@@ -41,8 +41,8 @@ export const Places = (props: PlacesProps) => {
             <button
                 onClick={handleRightClick}
                 disabled={false}
-                className="m-0.5 text-black bg-purple-600"
-                style={{ borderRadius: "50%", minHeight: "1.5rem", minWidth: "1.5rem" }}
+                className="m-0.5 text-black"
+                style={{ borderRadius: "50%", minHeight: "1.5rem", minWidth: "1.5rem", backgroundColor: "#ff6433" }}
             >
                 {">"}
             </button>
