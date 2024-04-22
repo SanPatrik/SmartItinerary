@@ -15,6 +15,11 @@ const encodeLocations = (locations: number[][]) => {
     return encodeURIComponent(parsedLocation);
 };
 
+const encodeLocationsComma = (locations: number[][]) => {
+    const parsedLocation = locations.map(([longitude, latitude]) => `${longitude},${latitude}`).join(",");
+    return encodeURIComponent(parsedLocation);
+};
+
 export const MapContainer = async (props: Props) => {
     // Fetch latitude and longitude for the city
     let cityResponse = undefined;
@@ -36,13 +41,10 @@ export const MapContainer = async (props: Props) => {
         if (!itinerary?.tags) return [];
         for (const tag of itinerary.tags) {
             const urlEncoded = encodeURIComponent(tag);
-            fetchPromises.push(
-                fetch(
-                    `https://api.mapbox.com/geocoding/v5/mapbox.places/${urlEncoded}.json?country=${props.itenirary.countryCode.toLowerCase()}&limit=1&proximity=ip&access_token=${
-                        process.env.NEXT_PUBLIC_REACT_APP_MAPBOX_ACCESS_TOKEN
-                    }`,
-                ),
-            );
+            const url = `https://api.mapbox.com/geocoding/v5/mapbox.places/${urlEncoded}.json?country=${props.itenirary.countryCode.toLowerCase()}&limit=1&proximity=${encodeLocationsComma(
+                [cityCoordinates],
+            )}&access_token=${process.env.NEXT_PUBLIC_REACT_APP_MAPBOX_ACCESS_TOKEN}`;
+            fetchPromises.push(fetch(url));
         }
         return fetchPromises;
     };
