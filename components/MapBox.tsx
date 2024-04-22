@@ -1,9 +1,10 @@
 "use client";
-import React, { useMemo, useState } from "react";
+import React, { Suspense, useMemo, useState } from "react";
 import "mapbox-gl/dist/mapbox-gl.css";
 import Map, { GeolocateControl, Layer, LineLayer, Marker, NavigationControl, Popup, Source } from "react-map-gl";
 import { GeolocationApiResponse } from "@/types/GeolocationApiResponse";
 import type { FeatureCollection } from "geojson";
+import { MapPopupContent } from "./MapPopupContent";
 type Props = {
     tags: GeolocationApiResponse[];
     route: number[][];
@@ -76,7 +77,9 @@ export const MapBox = (props: Props) => {
                     latitude={Number(popupInfo?.features?.[0]?.center[1] ?? 0)}
                     onClose={() => setPopupInfo(undefined)}
                 >
-                    <div>{popupInfo.features?.[0]?.text}</div>
+                    <Suspense>
+                        <MapPopupContent popupInfo={popupInfo} />
+                    </Suspense>
                 </Popup>
             )}
             <Source id="my-data" type="geojson" data={geojson}>
