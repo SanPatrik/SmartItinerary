@@ -37,7 +37,7 @@ export async function Itinerary(props: Props) {
                 </div>
                 {itenirary.days.map((day, index) => (
                     <div className="max-h-[100vh]" key={index}>
-                        <DayCard data={day} dayNumber={index + 1} />
+                        <DayCard data={day} dayNumber={index + 1} dayData={results[index] ?? []} />
                     </div>
                 ))}
             </div>

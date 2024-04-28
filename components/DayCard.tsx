@@ -1,5 +1,6 @@
 import { ItineraryDaySchema } from "@/ServerActions/getItenirary";
 import { Places } from "./Places";
+import { Day } from "@/types/FoursqarePlaceSearchResponse";
 
 function assignLinksToTags(description: string, tags: string[]): string {
     const links: string[] = [];
@@ -22,7 +23,7 @@ function assignLinksToTags(description: string, tags: string[]): string {
     return description;
 }
 
-const DayCard = ({ data, dayNumber }: { data: ItineraryDaySchema; dayNumber: number }) => {
+const DayCard = ({ data, dayNumber, dayData }: { data: ItineraryDaySchema; dayNumber: number; dayData: Day[] }) => {
     return (
         <>
             <div
