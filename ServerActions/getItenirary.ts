@@ -142,6 +142,9 @@ export async function GetItenirary(prompt: string): Promise<ItinerarySchemaRetur
 
         parsedItineraryData.days.forEach((day) => {
             console.log("Response:");
+            console.log("Places:");
+            console.log(day.places);
+            console.log("Tags:");
             console.log(day.tags);
         });
 
