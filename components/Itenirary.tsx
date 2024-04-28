@@ -3,6 +3,8 @@ import DayCard from "@/components/DayCard";
 import { Suspense } from "react";
 import { MapContainer } from "./MapContainer";
 import { MapRoot } from "./MapRoot";
+import PrintOnClient from "./PrintOnClient";
+import { getFoursqareData } from "@/ServerActions/getFoursqareData";
 
 type Props = {
     prompt: string;
@@ -20,8 +22,15 @@ export async function Itinerary(props: Props) {
         return <div>No itenirary</div>;
     }
 
+    const foursquare = itenirary.days.map((element) => {
+        return getFoursqareData(element.tags, itenirary.city);
+    });
+    const results = await Promise.all(foursquare);
+
     return (
         <div className="md:p-4 rounded gap-10 flex w-full bg-[#F9F7F6]">
+            <PrintOnClient toPrint={itenirary} />
+            <PrintOnClient toPrint={results} />
             <div className="flex flex-col gap-10 w-6/12 overflow-y-scroll max-h-[80vh]">
                 <div className="max-h-[100vh] ">
                     <div className="max-w-3x1 w-9/12 mx-auto shadow-lg rounded-xl overflow-hidden text-gray-800 bg-[#eaeaea]">
