@@ -1,8 +1,9 @@
 "use client";
 import React, { useState, useEffect } from "react";
+import { Day, Result } from "@/types/FoursqarePlaceSearchResponse";
 
 type PlacesProps = {
-    locations: string[];
+    locations: Day[];
 };
 
 // Define the function to fetch photos
@@ -16,8 +17,12 @@ async function fetchPhotos(fsq_id: string) {
     };
 
     try {
-        const response = await fetch(`https://api.foursquare.com/v3/places/${fsq_id}/photos`, options);
+        const response = await fetch(
+            `https://api.foursquare.com/v3/places/${fsq_id}/photos?limit=1&sort=POPULAR`,
+            options,
+        );
         const data = await response.json();
+        console.log(data);
         return data;
     } catch (err) {
         console.error(err);
@@ -53,9 +58,11 @@ export const Places = (props: PlacesProps) => {
                 {"<"}
             </button>
             <div ref={containerRef} className="overflow-auto flex flex-row">
-                {props.locations.map((tag, index) => {
-                    return <Place key={index} placeName={tag} />;
-                })}
+                {props.locations.flatMap((day, dayIndex) =>
+                    day.results.map((result, resultIndex) => (
+                        <Place key={`${dayIndex}-${resultIndex}`} placeName={result} />
+                    )),
+                )}
             </div>
             <button
                 onClick={handleRightClick}
@@ -70,29 +77,29 @@ export const Places = (props: PlacesProps) => {
 };
 
 type PlaceProps = {
-    placeName: string;
+    placeName: Result;
 };
 
 const Place = (props: PlaceProps) => {
     const [photos, setPhotos] = useState<any>(null);
 
     useEffect(() => {
-        fetchPhotos(props.placeName)
-            .then((data) => setPhotos(data.photos))
+        fetchPhotos(props.placeName.fsq_id)
+            .then((data) => setPhotos(data))
             .catch((err) => console.error(err));
     }, [props.placeName]);
 
     // Assemble the photo URL
     const photoUrl = photos && photos.length > 0 ? `${photos[0].prefix}original${photos[0].suffix}` : "";
-
+    console.log(photos);
     return (
         <div
             style={{ minWidth: "10rem", minHeight: "10rem", backgroundColor: "#ff6433" }}
             className="w-40 h-40 text-black text-center bg-white shadow-md m-2 rounded-md"
         >
-            {props.placeName}
+            {props.placeName.name}
             {/* Display the fetched photo here */}
-            {photoUrl && <img src={photoUrl} alt={props.placeName} />}
+            {photoUrl && <img src={photoUrl} alt={props.placeName.name} />}
         </div>
     );
 };

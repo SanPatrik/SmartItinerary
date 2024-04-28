@@ -50,8 +50,7 @@ const DayCard = ({ data, dayNumber, dayData }: { data: ItineraryDaySchema; dayNu
                         </div>
                     </div>
                 ))}
-
-                <Places locations={data.tags} />
+                <Places locations={dayData} />
             </div>
         </>
     );
