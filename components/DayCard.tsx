@@ -22,10 +22,13 @@ function assignLinksToTags(description: string, tags: string[]): string {
     return description;
 }
 
-const DayCard = ({ data, dayNumber }: { data: ItineraryDaySchema, dayNumber: number }) => {
+const DayCard = ({ data, dayNumber }: { data: ItineraryDaySchema; dayNumber: number }) => {
     return (
         <>
-            <div className="max-w-3x1 w-9/12 mx-auto shadow-lg rounded-xl overflow-hidden" style={{backgroundColor: "#eaeaea"}}>
+            <div
+                className="max-w-3x1 w-9/12 mx-auto shadow-lg rounded-xl overflow-hidden"
+                style={{ backgroundColor: "#eaeaea" }}
+            >
                 <div className="p-4 text-center">
                     <span className="font-bold text-3xl text-black ml-2">Day {dayNumber}</span>
                 </div>
@@ -33,13 +36,14 @@ const DayCard = ({ data, dayNumber }: { data: ItineraryDaySchema, dayNumber: num
                     <div key={timeIndex} className="p-2 text-gray-800">
                         <div>
                             <div className="font-bold">
-                                {timeOfDay.time.charAt(0).toUpperCase()}{timeOfDay.time.slice(1)}.&nbsp;
+                                {timeOfDay.time.charAt(0).toUpperCase()}
+                                {timeOfDay.time.slice(1)}.&nbsp;
                             </div>
                         </div>
                         <div>
                             <span
                                 dangerouslySetInnerHTML={{
-                                    __html: assignLinksToTags(timeOfDay.description, data.tags),
+                                    __html: assignLinksToTags(timeOfDay.description, data.places),
                                 }}
                             ></span>
                         </div>
