@@ -1,9 +1,28 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 type PlacesProps = {
     locations: string[];
 };
+
+// Define the function to fetch photos
+async function fetchPhotos(fsq_id: string) {
+    const options = {
+        method: "GET",
+        headers: {
+            accept: "application/json",
+            Authorization: "fsq390O7vuSwLgm2tdO3cvp8aKBHA0IPxpl7brNp2kCgYQM=",
+        },
+    };
+
+    try {
+        const response = await fetch(`https://api.foursquare.com/v3/places/${fsq_id}/photos`, options);
+        const data = await response.json();
+        return data;
+    } catch (err) {
+        console.error(err);
+    }
+}
 
 export const Places = (props: PlacesProps) => {
     const [scrollPosition, setScrollPosition] = useState(0);
@@ -55,12 +74,25 @@ type PlaceProps = {
 };
 
 const Place = (props: PlaceProps) => {
+    const [photos, setPhotos] = useState<any>(null);
+
+    useEffect(() => {
+        fetchPhotos(props.placeName)
+            .then((data) => setPhotos(data.photos))
+            .catch((err) => console.error(err));
+    }, [props.placeName]);
+
+    // Assemble the photo URL
+    const photoUrl = photos && photos.length > 0 ? `${photos[0].prefix}original${photos[0].suffix}` : "";
+
     return (
         <div
             style={{ minWidth: "10rem", minHeight: "10rem", backgroundColor: "#ff6433" }}
             className="w-40 h-40 text-black text-center bg-white shadow-md m-2 rounded-md"
         >
             {props.placeName}
+            {/* Display the fetched photo here */}
+            {photoUrl && <img src={photoUrl} alt={props.placeName} />}
         </div>
     );
 };
