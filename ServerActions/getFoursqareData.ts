@@ -46,6 +46,8 @@ export async function getFoursqareData(tags: string[], near: string): Promise<Da
         const params = {
             query: tag,
             near: near,
+            limit: "2",
+            sort: "RATING",
         };
 
         const url = new URL(baseURL);
@@ -65,9 +67,15 @@ export async function getFoursqareData(tags: string[], near: string): Promise<Da
         }
     });
 
-    const results = await Promise.all(fetchPromises).catch((err) => {
+    const results: Day[] = await Promise.all(fetchPromises).catch((err) => {
         console.error(err);
         return [];
     });
-    return results;
+    const distinctResults = results.reduce((distinct: Day[], current: Day) => {
+        current.results = current.results.filter(
+            (result) => !distinct.find((day) => day.results.some((r) => r.fsq_id === result.fsq_id)),
+        );
+        return [...distinct, current];
+    }, []);
+    return distinctResults;
 }
