@@ -19,10 +19,11 @@ const TEMPLATE = `
 Extract the request from the "{input}" in any language.
     Generate itinerary trip for this input: "{input}", with all the specific requirements in it in that language.
     Write down:
-    City name, country code (ISO 3166-1 A-2), introduction, separate each day into times ("morning", "afternoon", "evening") then generate description for each time and generate tags.
-    Tags are locations, activities, hotels, monuments, sightseeing's. These will be exactly extracted from description texts, so they must be equal to the locations taken from description, and can be later used to map location on the said tag from description (example: map location tag to some URL).
-These tags are places that are recommended based on the requirements from the input: "{input}". They should be specific real places that have specific name for that city from itinerary input! Try writing them in the way that we can easily find them by googling them. Meaning if its to general you can add the city name to that tag.
-Descriptions should be created with requirements, based on input: "{input}" and it should contain said tags based on these requirements.
+    City name, country code (ISO 3166-1 A-2), introduction, separate each day into times ("morning", "afternoon", "evening") then generate description for each time and generate "places" and "tags".
+    "Places" are locations, activities, hotels, monuments, sightseeing's. These will be exactly extracted from description texts, so they must be equal to the locations taken from description, and can be later used to map location on the said "place" from description (example: map location place to some URL).
+    "Tags" are like categories that can be assigned to said specific "places" and based on input: {input}, preferences.
+These "places" are locations that are recommended based on the requirements from the input: "{input}". They should be specific real locations that have specific name for that city from itinerary input! Try writing them in the way that we can easily find them by googling them. Meaning if its to general you can add the city name to that "place".
+Descriptions should be created with requirements, based on input: "{input}" and it should contain said "places" based on these requirements.
     Plan everything in order, so if we go somewhere in morning chronologically we go in order trough the destination and we will not hop from one side of the city to another and vice versa.
     If input does not contain any real location return error.
     Itinerary should be professional like from tourism company.
@@ -35,6 +36,7 @@ const itineraryDayInfoSchema = z.object({
 
 const itineraryDaySchema = z.object({
     timeOfDay: z.array(itineraryDayInfoSchema),
+    places: z.array(z.string()),
     tags: z.array(z.string()),
 });
 
