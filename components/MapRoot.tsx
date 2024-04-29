@@ -2,9 +2,11 @@
 import React, { Suspense, useState } from "react";
 import { ItinerarySchema } from "@/ServerActions/getItenirary";
 import { MapContainer } from "./MapContainer";
+import { Day } from "@/types/FoursqarePlaceSearchResponse";
 
 type Props = {
     itenirary: ItinerarySchema;
+    dayData: Day[][];
 };
 
 export const MapRoot = (props: Props) => {
@@ -23,7 +25,7 @@ export const MapRoot = (props: Props) => {
                 </button>
             ))}
             <Suspense fallback={<div>Loading</div>}>
-                <MapContainer itenirary={props.itenirary} selectedDay={currentSelectedDay} />
+                <MapContainer itenirary={props.itenirary} selectedDay={currentSelectedDay} dayData={props.dayData} />
             </Suspense>
         </>
     );

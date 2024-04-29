@@ -5,14 +5,16 @@ import Map, { GeolocateControl, Layer, LineLayer, Marker, NavigationControl, Pop
 import { GeolocationApiResponse } from "@/types/GeolocationApiResponse";
 import type { FeatureCollection } from "geojson";
 import { MapPopupContent } from "./MapPopupContent";
+import { Day, Result } from "@/types/FoursqarePlaceSearchResponse";
+import PrintOnClient from "./PrintOnClient";
 type Props = {
-    tags: GeolocationApiResponse[];
+    tags: Day[];
     route: number[][];
     city: number[];
 };
 
 export const MapBox = (props: Props) => {
-    const [popupInfo, setPopupInfo] = useState<GeolocationApiResponse | undefined>(undefined);
+    const [popupInfo, setPopupInfo] = useState<Result | undefined>(undefined);
 
     const geojson: FeatureCollection = {
         type: "FeatureCollection",
@@ -53,28 +55,33 @@ export const MapBox = (props: Props) => {
             }}
             mapStyle="mapbox://styles/mapbox/streets-v9"
         >
+            {/* <PrintOnClient toPrint={asdf} /> */}
             <NavigationControl />
             <GeolocateControl />
-            {props.tags.map((tag, index) => {
-                return (
-                    <Marker
-                        key={`${tag?.features?.[0]?.id}${index}`}
-                        longitude={tag?.features?.[0]?.center[0] ?? 0}
-                        latitude={tag?.features?.[0]?.center[1] ?? 0}
-                        onClick={(e) => {
-                            // If we let the click event propagates to the map, it will immediately close the popup
-                            // with `closeOnClick: true`
-                            e.originalEvent.stopPropagation();
-                            setPopupInfo(tag);
-                        }}
-                    ></Marker>
-                );
-            })}
+            {props.tags
+                .map((tag, index) => {
+                    return tag?.results?.map((result) => {
+                        return (
+                            <Marker
+                                key={result?.fsq_id ?? index}
+                                longitude={result?.geocodes?.main?.longitude ?? 0}
+                                latitude={result?.geocodes?.main?.latitude ?? 0}
+                                onClick={(e) => {
+                                    // If we let the click event propagates to the map, it will immediately close the popup
+                                    // with `closeOnClick: true`
+                                    e.originalEvent.stopPropagation();
+                                    setPopupInfo(result);
+                                }}
+                            ></Marker>
+                        );
+                    });
+                })
+                .flat()}
             {popupInfo && (
                 <Popup
                     anchor="top"
-                    longitude={Number(popupInfo?.features?.[0]?.center[0] ?? 0)}
-                    latitude={Number(popupInfo?.features?.[0]?.center[1] ?? 0)}
+                    longitude={Number(popupInfo?.geocodes?.main?.longitude ?? 0)}
+                    latitude={Number(popupInfo?.geocodes?.main?.latitude ?? 0)}
                     onClose={() => setPopupInfo(undefined)}
                 >
                     <Suspense>

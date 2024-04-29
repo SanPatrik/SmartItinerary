@@ -22,7 +22,6 @@ async function fetchPhotos(fsq_id: string) {
             options,
         );
         const data = await response.json();
-        console.log(data);
         return data;
     } catch (err) {
         console.error(err);
@@ -91,7 +90,7 @@ const Place = (props: PlaceProps) => {
 
     // Assemble the photo URL
     const photoUrl = photos && photos.length > 0 ? `${photos[0].prefix}original${photos[0].suffix}` : "";
-    console.log(photos);
+
     return (
         <div
             style={{ minWidth: "10rem", minHeight: "10rem", backgroundColor: "#ff6433" }}
