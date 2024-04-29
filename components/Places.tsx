@@ -94,12 +94,23 @@ const Place = (props: PlaceProps) => {
     console.log(photos);
     return (
         <div
-            style={{ minWidth: "10rem", minHeight: "10rem", backgroundColor: "#ff6433" }}
-            className="w-40 h-40 text-black text-center bg-white shadow-md m-2 rounded-md"
+            style={{
+                minWidth: "10rem",
+                minHeight: "10rem",
+                backgroundColor: "#ff6433",
+                position: "relative",
+                display: "flex",
+                flexDirection: "column",
+            }}
+            className="w-40 h-40 text-black text-center bg-white shadow-md m-2 rounded-md overflow-hidden"
         >
-            {props.placeName.name}
-            {/* Display the fetched photo here */}
-            {photoUrl && <img src={photoUrl} alt={props.placeName.name} />}
+            <div style={{ flex: "none" }}>
+                {props.placeName.name}
+            </div>
+            <div style={{ flex: "1", overflow: "hidden" }}>
+                {/* Display the fetched photo here */}
+                {photoUrl && <img src={photoUrl} alt={props.placeName.name} style={{ width: "100%", height: "100%", objectFit: "cover" }} />}
+            </div>
         </div>
     );
 };
