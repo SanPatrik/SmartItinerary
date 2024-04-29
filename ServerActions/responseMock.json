@@ -1,57 +1,79 @@
 {
     "city": "London",
-    "countryCode": "UK",
-    "introduction": "Itinerary for a 4-Day Trip to London",
+    "countryCode": "GB",
+    "introduction": "Welcome to London, a vibrant and diverse city full of history, culture, and endless entertainment opportunities.",
     "days": [
         {
             "timeOfDay": [
                 {
                     "time": "morning",
-                    "description": "Start your day with a visit to the South Bank, a cultural hub where you can enjoy performances at the Southbank Centre and admire the view of the London Eye and Houses of Parliament."
+                    "description": "Start your day with a visit to the iconic South Bank. Enjoy the views of the London Eye and Houses of Parliament while strolling along the Thames path."
                 },
                 {
                     "time": "afternoon",
-                    "description": "Explore the Thames path and cycle along the canals that meander through the city, immersing yourself in the vibrant outdoor atmosphere of London."
+                    "description": "Explore the bustling markets full of history and unique finds. Immerse yourself in the rich immigrant heritage of London at Spitalelds."
                 },
                 {
                     "time": "evening",
-                    "description": "Indulge in a leisurely evening by the river, sipping drinks and soaking in the bustling ambiance of the South Bank."
+                    "description": "Indulge in a leisurely evening by the river, sipping drinks and soaking in the vibrant atmosphere."
                 }
             ],
-            "tags": [
-                "South Bank",
-                "Southbank Centre",
-                "London Eye",
-                "Houses of Parliament",
-                "Thames path",
-                "Canals of London",
-                "Riverside Dining",
-                "South Bank View"
-            ]
+            "places": ["Southbank Centre", "18 Folgate Street", "Riverside Bars"],
+            "tags": ["Cultural", "Landmark", "Historical", "Market", "Relaxing", "Scenic"]
         },
         {
             "timeOfDay": [
                 {
                     "time": "morning",
-                    "description": "Visit the French Huguenots' historic area at Spitalelds to delve into London's immigrant history and experience the creative charm of the 17th century."
+                    "description": "Visit the historic Tower of London, home to the Crown Jewels and centuries of royal history."
                 },
                 {
                     "time": "afternoon",
-                    "description": "Immerse yourself in the literary culture of London at a market dedicated to the written word, exploring the diverse offerings and unique finds."
+                    "description": "Take a leisurely walk through Hyde Park, London's largest royal park, and enjoy the serene beauty of nature in the heart of the city."
                 },
                 {
                     "time": "evening",
-                    "description": "Relax and unwind in the cultural tapestry of London, reflecting on the day's discoveries and planning for more adventures ahead."
+                    "description": "Experience the West End's vibrant theater scene with a show at one of London's famous theaters."
                 }
             ],
-            "tags": [
-                "Spitalelds",
-                "Huguenots History",
-                "Literary Market",
-                "Bookworm Haven",
-                "Cultural Experience",
-                "London Nightlife"
-            ]
+            "places": ["Tower of London", "Hyde Park", "West End Theater"],
+            "tags": ["Historical", "Royal", "Park", "Nature", "Entertainment", "Theatrical"]
+        },
+        {
+            "timeOfDay": [
+                {
+                    "time": "morning",
+                    "description": "Explore the British Museum and delve into the rich history and culture of civilizations from around the world."
+                },
+                {
+                    "time": "afternoon",
+                    "description": "Discover the vibrant street art scene in Shoreditch and browse through eclectic galleries and graffiti."
+                },
+                {
+                    "time": "evening",
+                    "description": "Enjoy a culinary adventure in Covent Garden, tasting a variety of cuisines from around the world."
+                }
+            ],
+            "places": ["British Museum", "Shoreditch Street Art", "Covent Garden Market"],
+            "tags": ["Cultural", "Museum", "Artistic", "Urban", "Culinary", "Cultural"]
+        },
+        {
+            "timeOfDay": [
+                {
+                    "time": "morning",
+                    "description": "Embark on a panoramic tour of the city, starting from the historic landmarks of Westminster Abbey to the modern architecture of the Shard."
+                },
+                {
+                    "time": "afternoon",
+                    "description": "Visit the vibrant markets of Camden Town, known for its eccentric charm and unique shopping experience."
+                },
+                {
+                    "time": "evening",
+                    "description": "Conclude your trip with a relaxing cruise along the Thames, taking in the illuminated skyline of London."
+                }
+            ],
+            "places": ["Westminster Abbey", "The Shard", "Camden Market", "Thames River Cruise"],
+            "tags": ["Landmark", "Architecture", "Eclectic", "Market", "Scenic", "Relaxing"]
         }
     ]
 }

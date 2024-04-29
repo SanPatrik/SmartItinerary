@@ -1,11 +1,17 @@
-import { GeolocationApiResponse } from "@/types/GeolocationApiResponse";
+import { Result } from "@/types/FoursqarePlaceSearchResponse";
 import React from "react";
 
 type Props = {
-    popupInfo: GeolocationApiResponse;
+    popupInfo: Result;
 };
 
 export const MapPopupContent = async (props: Props) => {
     // do the foursquare api Dominik
-    return <div>{props.popupInfo.features?.[0]?.text}</div>;
+
+    return (
+        <div>
+            <div>{props.popupInfo?.name}</div>
+            <div>{props.popupInfo?.link}</div>
+        </div>
+    );
 };

@@ -48,7 +48,7 @@ export async function Itinerary(props: Props) {
                 ))}
             </div>
             <div className="w-6/12" style={{ height: "80vh" }}>
-                <MapRoot itenirary={itenirary} />
+                <MapRoot itenirary={itenirary} dayData={results} />
             </div>
         </div>
     );
