@@ -12,7 +12,7 @@ async function fetchPhotos(fsq_id: string) {
         method: "GET",
         headers: {
             accept: "application/json",
-            Authorization: "fsq390O7vuSwLgm2tdO3cvp8aKBHA0IPxpl7brNp2kCgYQM=",
+            Authorization: process.env.NEXT_PUBLIC_FOURSQARE_TOKEN as string,
         },
     };
 
@@ -103,12 +103,16 @@ const Place = (props: PlaceProps) => {
             }}
             className="w-40 h-40 text-black text-center bg-white shadow-md m-2 rounded-md overflow-hidden"
         >
-            <div style={{ flex: "none" }}>
-                {props.placeName.name}
-            </div>
+            <div style={{ flex: "none" }}>{props.placeName.name}</div>
             <div style={{ flex: "1", overflow: "hidden" }}>
                 {/* Display the fetched photo here */}
-                {photoUrl && <img src={photoUrl} alt={props.placeName.name} style={{ width: "100%", height: "100%", objectFit: "cover" }} />}
+                {photoUrl && (
+                    <img
+                        src={photoUrl}
+                        alt={props.placeName.name}
+                        style={{ width: "100%", height: "100%", objectFit: "cover" }}
+                    />
+                )}
             </div>
         </div>
     );

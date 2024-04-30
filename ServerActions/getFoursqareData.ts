@@ -3,7 +3,7 @@
 //         method: "GET",
 //         headers: {
 //             accept: "application/json",
-//             Authorization: "fsq390O7vuSwLgm2tdO3cvp8aKBHA0IPxpl7brNp2kCgYQM=",
+//             Authorization: "",
 //         },
 //     };
 
@@ -36,7 +36,7 @@ export async function getFoursqareData(tags: string[], near: string): Promise<Da
         method: "GET",
         headers: {
             accept: "application/json",
-            Authorization: "fsq390O7vuSwLgm2tdO3cvp8aKBHA0IPxpl7brNp2kCgYQM=",
+            Authorization: process.env.NEXT_PUBLIC_FOURSQARE_TOKEN as string,
         },
     };
 
